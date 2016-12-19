@@ -24,9 +24,9 @@ public class DbHelp {
             queryRunner.update(sql, params);
 
             logger.debug("SQL: {}",sql);
-        } catch (SQLException ex) {
+        } catch (SQLException e) {
             logger.error("执行{}异常",sql);
-            throw new DataAccessException("执行"+ sql + "异常",ex);
+            throw new DataAccessException("执行"+ sql + "异常",e);
         }
     }
 

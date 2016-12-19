@@ -9,12 +9,12 @@ public class Test {
       HtmlEmail htmlEmail = new HtmlEmail();
       htmlEmail.setHostName("smtp.126.com");
       htmlEmail.setSmtpPort(25);
-      htmlEmail.setAuthentication("kaishengit","p@ssw@rd");
+      htmlEmail.setAuthentication("sunxiaoyun131420","sxy2zh..");
       htmlEmail.setCharset("UTF-8");
       htmlEmail.setStartTLSEnabled(true);
 
       try {
-          htmlEmail.setFrom("kaishengit@126.com");
+          htmlEmail.setFrom("sunxiaoyun131420@126.com");
           htmlEmail.setSubject("主题");
           htmlEmail.setHtmlMsg("<h3>Dear <a href=\"www.baidu.com\">www.baidu.com</a> 激活账号</h3>");
           htmlEmail.addTo("1104606795@qq.com");

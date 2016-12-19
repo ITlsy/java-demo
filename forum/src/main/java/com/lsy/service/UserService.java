@@ -57,7 +57,6 @@ public class UserService {
 
     //新用户注册
     public void saveNewUser(String username, String password, String email, String phone) {
-        System.out.println(email);
         User user = new User();
         user.setUsername(username);
         user.setPassword(DigestUtils.md5Hex(Config.get("user.password.salt") + password));
@@ -88,8 +87,7 @@ public class UserService {
         String url = "http://localhost/user/active?_=" + uuid;
         //放入缓存等待6个小时
         cache.put(uuid, username);
-        String html = "<h3>Dear " + username + ":</h3>请点击<a href='" + url + "'>该链接</a>去激活你的账号. <br> 凯盛软件";
-        System.out.println(email);
+        String html = "<h3>Dear " + username + ":</h3>请点击<a href='" + url + "'>该链接</a>去激活你的账号.";
         EmailUtil.sendHtmlEmail(email, "用户激活邮件", html);
 
 
@@ -222,6 +220,24 @@ public class UserService {
         }
 
 
+    }
+
+    //修改用户的电子邮件
+    public void updateEmail(User user, String email) {
+        user.setEmail(email);
+        userDao.update(user);
+    }
+
+    //修改用户的密码
+    public void updatePassword(User user, String oldpassword, String newpassword) {
+        String salt=Config.get("user.password.salt");
+        if(DigestUtils.md5Hex(salt + oldpassword).equals(user.getPassword())){
+            newpassword=DigestUtils.md5Hex(salt + newpassword);
+            user.setPassword(newpassword);
+            userDao.update(user);
+        }else {
+            throw new ServiceException("原始密码错误");
+        }
     }
 }
 
