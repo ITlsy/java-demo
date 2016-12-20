@@ -33,7 +33,8 @@ $(function () {
                },
                success:function (data) {
                    if(data.state=="success"){
-                       alert("登录成功");
+                     //  alert("登录成功");
+                       swal("Good job!", "You clicked the button!", "success");
                        window.location.href="/home";
                    }else {
                        alert(data.message);
