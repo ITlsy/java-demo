@@ -5,7 +5,9 @@ import com.lsy.dto.JsonResult;
 import com.lsy.entitiy.User;
 import com.lsy.exception.ServiceException;
 import com.lsy.service.UserService;
+import com.lsy.util.Config;
 import com.lsy.web.BaseServlet;
+import com.qiniu.util.Auth;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,6 +20,10 @@ import java.util.Map;
 public class SettingServlet extends BaseServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        //计算七牛云存储的Token
+        Auth auth= Auth.create(Config.get("qiniu.ak"),Config.get("qiniu.sk"));
+        String token=auth.uploadToken(Config.get("qiniu.bucket"));
+        req.setAttribute("token",token);
         forward("user/setting.jsp",req,resp);
     }
 
@@ -28,8 +34,23 @@ public class SettingServlet extends BaseServlet {
         updateProfile(req,resp);
     }else if("password".equals(action)){
         updatePassword(req,resp);
+    }else if("avatar".equals(action)){
+        updateAvatar(req,resp);
+    }
 
     }
+
+    private void updateAvatar(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        String fileKey=req.getParameter("fileKey");
+        User user=getCurrentUser(req);
+
+        UserService userService=new UserService();
+        userService.updateAvatar(user,fileKey);
+
+        JsonResult result=new JsonResult();
+        result.setState(JsonResult.SUCCESS);
+
+        renderJson(result,resp);
 
     }
 

@@ -25,6 +25,7 @@
         <lang-version>3.5</lang-version>
         <commons-codec-version>1.10</commons-codec-version>
         <commons-email-version>1.4</commons-email-version>
+        <qiniu-version>7.1.0</qiniu-version>
     </properties>
 
   <dependencies>
@@ -117,6 +118,17 @@
           <groupId>org.apache.commons</groupId>
           <artifactId>commons-email</artifactId>
           <version>${commons-email-version}</version>
+      </dependency>
+      <dependency>
+          <groupId>com.qiniu</groupId>
+          <artifactId>qiniu-java-sdk</artifactId>
+          <version>${qiniu-version}</version>
+          <exclusions>
+              <exclusion>
+                  <artifactId>gson</artifactId>
+                  <groupId>com.google.code.gson</groupId>
+              </exclusion>
+          </exclusions>
       </dependency>
 
   </dependencies>

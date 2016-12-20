@@ -63,7 +63,7 @@ public class UserService {
         user.setEmail(email);
         user.setPhone(phone);
         user.setAvatar(User.DEFAULT_AVATER_NAME);
-        user.setState(User.USERSTATE_ACTIVE);
+        user.setState(User.USERSTATE_UNACTIVE);
 
         userDao.save(user);
 
@@ -238,6 +238,12 @@ public class UserService {
         }else {
             throw new ServiceException("原始密码错误");
         }
+    }
+
+    public void updateAvatar(User user, String fileKey) {
+        user.setAvatar(fileKey);
+        userDao.update(user);
+
     }
 }
 

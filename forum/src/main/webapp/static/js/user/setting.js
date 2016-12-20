@@ -101,11 +101,9 @@ $(function () {
                   }else{
                       alert(data.message);
                   }
-
               },
               error:function () {
                   alert("服务器错误");
-
               },
               complete:function () {
                   $("#passwordBtn").text("保存").attr("disabled");
