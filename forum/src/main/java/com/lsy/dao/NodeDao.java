@@ -1,0 +1,24 @@
+package com.lsy.dao;
+
+import com.lsy.entitiy.Node;
+import com.lsy.util.DbHelp;
+import org.apache.commons.dbutils.handlers.BeanHandler;
+import org.apache.commons.dbutils.handlers.BeanListHandler;
+
+import java.util.List;
+
+/**
+ * Created by Administrator on 2016/12/20 0020.
+ */
+public class NodeDao {
+    public List<Node> findAllNodes() {
+        String sql="select * from t_node";
+        return DbHelp.query(sql,new BeanListHandler<>(Node.class));
+
+    }
+
+    public Node findNodeById(Integer nodeid) {
+        String sql="select * from t_node where id=?";
+        return DbHelp.query(sql,new BeanHandler<>(Node.class),nodeid);
+    }
+}

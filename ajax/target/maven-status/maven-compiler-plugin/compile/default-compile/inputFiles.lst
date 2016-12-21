@@ -3,6 +3,7 @@ F:\workspace\git\ajax\src\main\java\com\lsy\web\AjaxServlet.java
 F:\workspace\git\ajax\src\main\java\com\lsy\web\BasicServlet.java
 F:\workspace\git\ajax\src\main\java\com\lsy\util\ConnectionManager.java
 F:\workspace\git\ajax\src\main\java\com\lsy\util\HttpUtil.java
+F:\workspace\git\ajax\src\main\java\com\lsy\web\QiniuServlet.java
 F:\workspace\git\ajax\src\main\java\com\lsy\web\UploadServlet.java
 F:\workspace\git\ajax\src\main\java\com\lsy\web\SaveServlet.java
 F:\workspace\git\ajax\src\main\java\com\lsy\util\DbHelp.java

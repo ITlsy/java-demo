@@ -69,8 +69,6 @@ public class SettingServlet extends BaseServlet {
         }catch (ServiceException e){
             JsonResult result=new JsonResult(e.getMessage());
             renderJson(result,resp);
-
-
         }
 
     }

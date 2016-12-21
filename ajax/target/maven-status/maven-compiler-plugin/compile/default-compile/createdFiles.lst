@@ -6,6 +6,7 @@ com\lsy\service\MessageService.class
 com\lsy\web\TimelineServlet.class
 com\lsy\web\AjaxServlet.class
 com\lsy\web\CheckEmailServlet.class
+com\lsy\web\QiniuServlet.class
 com\lsy\web\UploaderServlet.class
 com\lsy\web\UploadServlet.class
 com\lsy\web\VocabularyServlet.class
