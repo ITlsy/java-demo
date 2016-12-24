@@ -1,10 +1,8 @@
 package com.lsy.entitiy;
 
+import org.joda.time.DateTime;
 import java.sql.Timestamp;
 
-/**
- * Created by Administrator on 2016/12/20 0020.
- */
 public class Topic {
     private Integer id;
     private String title;
@@ -123,5 +121,13 @@ public class Topic {
 
     public void setNode(Node node) {
         this.node = node;
+    }
+
+    public boolean isEdit(){
+        DateTime dateTime=new DateTime(getCreatetime());
+        if(dateTime.plusMinutes(5).isAfterNow()&&getReplynum()==0){
+            return true;
+        }
+        return false;
     }
 }

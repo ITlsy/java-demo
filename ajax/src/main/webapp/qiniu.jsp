@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <title>Title</title>
@@ -11,5 +12,9 @@
     <button>上传</button>
 
 </form>
+<c:if test="${not empty fileName}">
+    <img src="http://oifocnk31.bkt.clouddn.com/${fileName}?imageView2/1/w/200/h/200">
+
+</c:if>
 </body>
 </html>

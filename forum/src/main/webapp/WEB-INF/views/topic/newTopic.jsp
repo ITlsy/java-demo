@@ -9,6 +9,7 @@
     <link href="http://cdn.bootcss.com/bootstrap/2.3.1/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/static/css/style.css">
     <link rel="stylesheet" href="/static/js/editer/styles/simditor.css">
+    <link rel="stylesheet" href="/static/css/simditor-emoji.css">
 </head>
 <body>
 <%@include file="../include/navbar.jsp"%>
@@ -32,7 +33,6 @@
                 </c:forEach>
             </select>
 
-
         </form>
         <div class="form-actions" style="text-align: right">
             <button id="sendBtn"class="btn btn-primary">发布主题</button>
@@ -43,74 +43,83 @@
     <!--box end-->
 </div>
 <!--container end-->
-<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+<script src="/static/js/jquery-1.11.1.js"></script>
 <script src="/static/js/editer/scripts/module.min.js"></script>
 <script src="/static/js/editer/scripts/hotkeys.min.js"></script>
 <script src="/static/js/editer/scripts/uploader.min.js"></script>
 <script src="/static/js/editer/scripts/simditor.min.js"></script>
 <script src="/static/js/jquery.validate.min.js"></script>
-
+<script src="/static/js/simditor-emoji.js"></script>
 <script>
-    $(function () {
+    $(function(){
         var editor = new Simditor({
-            textarea: $('#editor')
+            textarea: $('#editor'),
             //optional options
+            toolbar: ['title', 'bold', 'italic', 'underline',
+                'strikethrough', 'fontScale','color','ol','ul',
+                'blockquote', 'code', 'table', 'link', 'image','hr',
+                'indent', 'outdent', 'alignment','emoji'],
+            emoji:{
+                imagePath:'/static/img/images/emoji/'
+            },
+
+            upload:{
+                url:"http://up-z1.qiniu.com/",
+                params:{"token":"${token}"},
+                fileKey:"file"
+            },
+
+        });
+        $("#sendBtn").click(function () {
+            $("#topicForm").submit();
+        });
+        $("#topicForm").validate({
+            errorElement:"span",
+            errorClass:"text-error",
+            rules:{
+                title:{
+                    required:true,
+                },
+                nodeid:{
+                    required:true,
+                }
+            },
+            messages:{
+                title:{
+                    required:"请输入标题",
+                },
+                nodeid:{
+                    required:"请选择节点",
+                }
+            },
+            submitHandler:function () {
+                $.ajax({
+                    url:"/newTopic",
+                    type:"post",
+                    data:$("#topicForm").serialize(),
+                    beforeSend:function(){
+                        $("#sendBtn").text("发布中").attr("disabled","disabled");
+                    },
+                    success:function(json){
+                        if(json.state == "success"){
+                            window.location.href="/topicDetail?topicid="+json.data.id;
+                        }else {
+                            alert("新增主题异常");
+                        }
+                    },
+                    error:function(){
+                        alert("服务器异常");
+                    },
+                    complete:function () {
+                        $("#sendBtn").text("发布主题").removeAttr("disabled");
+                    }
+                })
+            }
         });
 
-       $("#sendBtn").click(function () {
-          $("#topicForm").submit();
-       });
 
-       $("#topicForm").validate({
-          errorElement:'span',
-           errorClass:'text-error',
-           rules:{
-              title:{
-                 required:true
-              },
-               nodeid:{
-                 required:true
-               }
-           },
-           messages:{
-               title:{
-                   required:"请输入标题"
-               },
-               nodeid:{
-                   required:"请选择节点"
-               }
-
-        },
-           
-           submitHandler:function () {
-              $.ajax({
-                 url:'/newTopic',
-                  type:'post',
-                  data:$("#topicForm").serialize(),
-                  beforeSend:function () {
-                     $("#sendBtn").text("发布中").attr("disabled","disabled");
-                  },
-                  success:function (json) {
-                     if(json.state=='success'){
-                         window.location.href="/topicDetail?topicid="+json.data.id;
-                     }else {
-                         alert("发送主题失败");
-                     }
-
-                  },
-                  error:function () {
-                     alert("服务器错误");
-
-                  },
-                  complete:function () {
-                     $("#sendBtn").text("发布主题").removeAttr("disabled");
-
-                  }
-              });
-               
-           }
-       });
     });
 </script>
+
 </body>
 </html>

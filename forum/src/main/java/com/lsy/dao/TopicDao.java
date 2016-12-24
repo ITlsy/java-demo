@@ -4,9 +4,6 @@ import com.lsy.entitiy.Topic;
 import com.lsy.util.DbHelp;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 
-/**
- * Created by Administrator on 2016/12/20 0020.
- */
 public class TopicDao {
     public Integer save(Topic topic) {
         String sql="insert into t_topic (title,content,nodeid,userid) values(?,?,?,?)";
@@ -16,5 +13,13 @@ public class TopicDao {
     public Topic findTopicById(String topicid) {
         String sql="select * from t_topic where id=?";
         return DbHelp.query(sql,new BeanHandler<>(Topic.class),topicid);
+    }
+
+    public void update(Topic topic) {
+        String sql="update t_topic set title=?,content=?,clicknum=?,favnum=?,thankyounum=?," +
+                "replynum=?,lastreplytime=?,nodeid=?,userid=? where id=?";
+        DbHelp.update(sql,topic.getTitle(),topic.getContent(), topic.getClicknum(),
+                topic.getFavnum(),topic.getThankyounum(),topic.getReplynum(),topic.getLastreplytime(),
+                topic.getNodeid(),topic.getUserid(),topic.getId());
     }
 }

@@ -1,4 +1,17 @@
 $(function () {
+
+    function getParameterByName(name, url) {
+        if (!url) {
+            url = window.location.href;
+        }
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+
    $("#loginBtn").click(function () {
        $("#loginForm").submit();
    }) ;
@@ -35,7 +48,18 @@ $(function () {
                    if(data.state=="success"){
                      //  alert("登录成功");
                        swal("Good job!", "You clicked the button!", "success");
-                       window.location.href="/home";
+                       var url = getParameterByName("redirect");
+                       if(url){
+                           var hash=location.hash;
+                           if(hash){
+                               window.location.href=url+hash;
+                           }else {
+                               window.location.href=url;
+                           }
+                       }else {
+                           window.location.href="/home";
+                       }
+
                    }else {
                        alert(data.message);
                    }
