@@ -1,5 +1,4 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,18 +9,19 @@
     <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
-<%@ include file="include/navbar.jsp"%>
-<!--header-bar end-->
+<%@ include file="include/navbar.jsp" %>
 <div class="container">
     <div class="box">
         <div class="talk-item">
             <ul class="topic-type unstyled inline" style="margin-bottom:0px;">
-                <li class="${empty param.nodeid ? 'active' : ''}"><a href="/home">全部</a></li>
+                <li class="${empty param.nodeid?'active':''}"><a href="/home">全部</a></li>
                 <c:forEach items="${nodeList}" var="node">
-                    <li class="${param.nodeid == node.id ? 'active' : ''}"><a href="/home?nodeid=${node.id}">${node.nodename}</a></li>
+                    <li class="${node.id == param.nodeid?'active':'' }"><a href="/home?nodeid=${node.id}">${node.nodename}</a></li>
                 </c:forEach>
+
             </ul>
         </div>
+
         <c:forEach items="${page.items}" var="topic">
             <div class="talk-item">
                 <table class="talk-table">
@@ -36,34 +36,33 @@
                             <a href="/topicDetail?topicid=${topic.id}">${topic.title}</a>
                         </td>
                         <td width="50" align="center">
-
-                            <c:if test="${topic.replynum != 0}">
-                                <span class="badge">${topic.replynum}</span>
-                            </c:if>
+                            <span class="badge">${topic.replynum}</span>
                         </td>
                     </tr>
                 </table>
             </div>
         </c:forEach>
-        <c:if test="${page.totalPage> 1}">
-        <div class="pagination pagination-right" id="pages" style="margin:0px 20px 20px 0px"></div>
-        </c:if>
-    </div>
 
+        <div class="pagination pagination-mini pagination-centered">
+            <ul id="pagination" style="margin-bottom:20px;"></ul>
+        </div>
+    </div>
     <!--box end-->
 </div>
 <!--container end-->
 <div class="footer">
     <div class="container">
-        Copyright © 2015 lsy
+        Copyright © 2016 lsy
     </div>
 </div>
-<script src="/static/js/jquery-1.11.1.js"></script>
+
+<script src="/static/js/jquery-1.11.3.min.js"></script>
 <script src="/static/js/jquery.twbsPagination.min.js"></script>
+
 <script>
     $(function(){
-        $("#pages").twbsPagination({
-            totalPage:${page.totalPage},
+        $("#pagination").twbsPagination({
+            totalPages:${page.totalPage},
             visiblePages:5,
             first:'首页',
             last:'末页',
@@ -71,6 +70,7 @@
             next:'下一页',
             href:"?nodeid=${param.nodeid}&p={{number}}"
         });
+
     });
 </script>
 </body>
