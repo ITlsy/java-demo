@@ -1,13 +1,16 @@
 package com.lsy.service;
 
+import com.google.common.collect.Maps;
 import com.lsy.dao.*;
 import com.lsy.entitiy.*;
 import com.lsy.exception.ServiceException;
 import com.lsy.util.Config;
+import com.lsy.util.Page;
 import org.apache.commons.lang3.StringUtils;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 public class TopicService {
@@ -47,8 +50,10 @@ public class TopicService {
     }
 
     public Topic findTopicById(String topicid) {
+        System.out.println(topicid);
         if(StringUtils.isNumeric(topicid)){
             Topic topic=topicDao.findTopicById(topicid);
+            System.out.println(topic);
             if(topic!=null){
                 //通过topic对象的userid、nodeid 获取user和node对象,并set到topic对象中
                 User user=userDao.findById(topic.getUserid());
@@ -98,7 +103,7 @@ public class TopicService {
         if(topic.isEdit()){
             topic.setTitle(title);
             topic.setContent(content);
-            topic.setNodeid(Integer.valueOf(topicid));
+            topic.setNodeid(Integer.valueOf(nodeid));
             topicDao.update(topic);
         }else {
             throw new ServiceException("该帖已经不可编辑");
@@ -133,5 +138,26 @@ public class TopicService {
 
     public void updateTopic(Topic topic) {
         topicDao.update(topic);
+    }
+
+    public Page<Topic> findAllTopics(String nodeid, Integer pageNo) {
+        HashMap<String,Object> map= Maps.newHashMap();
+        int count=0;
+        if(StringUtils.isEmpty(nodeid)){
+            count=topicDao.count();
+        }else {
+            count=topicDao.count(nodeid);
+        }
+         /*Node node = nodeDao.findNodeById(Integer.valueOf(nodeid));
+        count = node.getTopicnum();*/
+         Page<Topic> topicPage=new Page<>(count,pageNo);
+         map.put("nodeid",nodeid);
+         map.put("start",topicPage.getStart());
+         map.put("pageSize",topicPage.getPageSize());
+
+         List<Topic> topicList=topicDao.findAll(map);
+         topicPage.setItems(topicList);
+         return topicPage;
+
     }
 }

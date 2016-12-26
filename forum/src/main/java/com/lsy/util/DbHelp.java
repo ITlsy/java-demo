@@ -26,8 +26,9 @@ public class DbHelp {
 
             logger.debug("SQL: {}",sql);
         } catch (SQLException e) {
-            logger.error("执行{}异常",sql);
-            throw new DataAccessException("执行"+ sql + "异常",e);
+            e.printStackTrace();
+            //logger.error("执行{}异常",sql);
+            //throw new DataAccessException("执行"+ sql + "异常",e);
         }
     }
 

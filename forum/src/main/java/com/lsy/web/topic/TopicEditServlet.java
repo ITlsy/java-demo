@@ -21,6 +21,7 @@ public class TopicEditServlet extends BaseServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String topicid=req.getParameter("topicid");
         TopicService topicService=new TopicService();
+
         Topic topic=topicService.findTopicById(topicid);
 
         List<Node> nodeList=topicService.findAllNode();
