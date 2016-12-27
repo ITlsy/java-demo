@@ -4,8 +4,10 @@ package com.lsy.service;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.lsy.dao.LoginLogDao;
+import com.lsy.dao.NotifyDao;
 import com.lsy.dao.UserDao;
 import com.lsy.entitiy.LoginLog;
+import com.lsy.entitiy.Notify;
 import com.lsy.entitiy.User;
 
 import com.lsy.exception.ServiceException;
@@ -14,10 +16,13 @@ import com.lsy.util.EmailUtil;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.sql.Timestamp;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -26,6 +31,7 @@ public class UserService {
     private Logger logger = LoggerFactory.getLogger(UserService.class);
     private UserDao userDao = new UserDao();
     private LoginLogDao loginLogDao = new LoginLogDao();
+    private NotifyDao notifyDao=new NotifyDao();
 
     //发送激活邮件的TOKEN缓存
     private static Cache<String, String> cache = CacheBuilder.newBuilder()
@@ -243,6 +249,23 @@ public class UserService {
     public void updateAvatar(User user, String fileKey) {
         user.setAvatar(fileKey);
         userDao.update(user);
+
+    }
+
+
+    public List<Notify> findByUser(User user) {
+        return notifyDao.findByUser(user.getId());
+    }
+
+    public void updateNotifyStateByIds(String ids) {
+        String idArray[] = ids.split(",");
+        for (int i= 0 ;i <idArray.length;i++ ){
+            Notify notify = notifyDao.findById(idArray[i]);
+            notify.setState(Notify.NOTIFY_STATE_READ);
+            notify.setReadtime(new Timestamp(DateTime.now().getMillis()));
+            notifyDao.update(notify);
+        }
+
 
     }
 }
