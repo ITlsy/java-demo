@@ -45,7 +45,41 @@
 <script src="/static/js/sweetalert.min.js"></script>
 <script>
     $(function () {
-    
+    $(".delNode").click(function () {
+       var id=$(this).attr("rel");
+
+       swal({
+           title:"确定要删除该节点?",
+           type:"warning",
+           showCancelButton:true,
+           confirmButtonColor: "#DD6B55",
+           confirmButtonText: "确定",
+           cancelButtonText:"取消",
+           closeOnConfirm: false,
+               closeOnCancel:true
+       },
+        function () {
+            $.ajax({
+               url:"/admin/delNode",
+                type:"post",
+                data:{"id":id},
+                success:function (data) {
+                   if(data.state=='success'){
+                       swal({title:"删除成功!"},function () {
+                           window.history.go(0);
+                       });
+                   }else {
+                       swal(data.message);
+                   }
+                },
+                error:function () {
+                    swal("服务器异常,删除失败!");
+            }
+            });
+        }
+
+       )
+    });
     });
 </script>
 </body>

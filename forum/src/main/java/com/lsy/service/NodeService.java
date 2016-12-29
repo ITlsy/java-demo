@@ -3,6 +3,8 @@ package com.lsy.service;
 import com.lsy.dao.NodeDao;
 import com.lsy.entitiy.Node;
 import com.lsy.exception.ServiceException;
+import com.lsy.util.DbHelp;
+import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -35,5 +37,14 @@ public class NodeService {
 
         }
         return "false";
+    }
+
+    public void delNodeById(String id) {
+    Node node=nodeDao.findNodeById(Integer.valueOf(id));
+    if(node.getTopicnum()>0){
+        throw new ServiceException("该节点下已有主题,不可删除");
+      }else {
+        nodeDao.delNode(id);
+    }
     }
 }
