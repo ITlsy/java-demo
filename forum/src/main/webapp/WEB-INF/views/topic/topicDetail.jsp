@@ -73,7 +73,7 @@
 
     <div class="box" style="margin-top:20px;">
         <div class="talk-item muted" style="font-size: 12px">
-            ${fn:length(replyList)}个回复 | 直到<span id="lastreplytime">${topic.lastreplytime}</span>
+            ${fn:length(replyList)}个回复 <c:if test="${not empty replyList}">| 直到<span id="lastreplytime">${topic.lastreplytime}</span></c:if>
         </div>
         <c:forEach items="${replyList}" var="reply" varStatus="vs">
             <div class="talk-item">
