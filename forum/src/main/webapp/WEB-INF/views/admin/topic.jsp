@@ -12,6 +12,7 @@
         .table td{
             vertical-align: middle;
         }
+
         .table select{
             width: 150px;
             margin: 0px;
@@ -32,6 +33,7 @@
             <th>发布时间</th>
             <th>回复数量</th>
             <th>最后回复时间</th>
+            <th>选择节点</th>
             <th>操作</th>
         </tr>
         </thead>
@@ -90,7 +92,7 @@
                 type:"post",
                 data:{"id":id,"nodeid":nodeid},
                 success:function(data){
-                    if(data == 'success') {
+                    if(data.state== 'success') {
                         alert("修改成功!");
                         window.history.go(0);
                     } else {
@@ -98,7 +100,7 @@
                     }
                 },
                 error:function(){
-                    swal("服务器异常,删除失败!");
+                    swal("服务器异常,修改失败!");
                 }
             });
         });

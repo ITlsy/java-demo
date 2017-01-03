@@ -21,8 +21,6 @@ public class AdminTopicUpdateServlet extends BaseServlet {
         String topicid=req.getParameter("id");
         String nodeid=req.getParameter("nodeid");
 
-        System.out.println(nodeid);
-
         TopicService topicService=new TopicService();
         JsonResult jsonResult=new JsonResult();
         try{

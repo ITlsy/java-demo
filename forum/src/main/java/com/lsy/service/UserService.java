@@ -285,6 +285,7 @@ public class UserService {
     public void updateUserState(String userid, Integer userState) {
         if(StringUtils.isNumeric(userid)){
             User user=userDao.findById(Integer.valueOf(userid));
+            System.out.println(user);
             user.setState(userState);
             userDao.update(user);
         }else {

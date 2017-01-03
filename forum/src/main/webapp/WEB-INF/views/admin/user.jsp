@@ -30,8 +30,8 @@
                 <td>${userVo.lastLogintime}</td>
                 <td>${userVo.loginIp}</td>
                 <td>
-                    <a href="javascript:;" class="update" onClick="update(${userVo.userid},${userVo.userState})"
-                       rel="${userVo.userState},${userVo.userid}"> ${userVo.userState == '1'?'禁用':'恢复'}</a>
+                    <a href="javascript:;" class="update"<%-- onClick="update(${userVo.userId},${userVo.userState})"--%>
+                       rel="${userVo.userState},${userVo.userid}">${userVo.userState == '1'?'禁用':'恢复'}</a>
                 </td>
             </tr>
         </c:forEach>
@@ -55,10 +55,8 @@
                 href: '?p={{number}}'
             });
 
-            /*$(".update").click(function () {
+            $(".update").click(function () {
              var state = $(this).attr("rel");
-             alert(state);
-
              $.ajax({
              url:"/admin/user",
              type:"post",
@@ -73,15 +71,15 @@
              }
              },
              error:function(){
-             swal("服务器异常,删除失败!");
+            alert("服务器异常,修改失败!");
              }
              });
 
-             });*/
+             });
 
         });
         
-        function update(userid,userState) {
+       /* function update(userid,userState) {
             $.post("/admin/user",{"userid":userid,"userState":userState},function (json) {
                if(json.state=='success'){
                    alert("修改成功");
@@ -91,7 +89,7 @@
                }
             });
             
-        }
+        }*/
     </script>
 </div>
 <!--container end-->

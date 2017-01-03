@@ -54,7 +54,6 @@ public class TopicService {
         System.out.println(topicid);
         if(StringUtils.isNumeric(topicid)){
             Topic topic=topicDao.findTopicById(topicid);
-            System.out.println(topic);
             if(topic!=null){
                 //通过topic对象的userid、nodeid 获取user和node对象,并set到topic对象中
                 User user=userDao.findById(topic.getUserid());
@@ -64,8 +63,7 @@ public class TopicService {
                topic.setNode(node);
 
                 //更新topic表中的clicknum字段
-                topic.setClicknum(topic.getClicknum()+1);
-                topicDao.update(topic);
+
                return topic;
 
             }else {

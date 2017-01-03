@@ -33,14 +33,14 @@ public class AdminUserServlet extends BaseServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //jquery rel 方式获取
-        /* String userStateId = req.getParameter("userStateId");
-        String[] stateandid = userStateId.split(",");
-        String userid = stateandid[1];
-        Integer userState = Integer.valueOf(stateandid[0]);*/
-
+         String userStateId = req.getParameter("userStateId");
+        String[] stateAndId = userStateId.split(",");
+        String userid = stateAndId[1];
+        Integer userState = Integer.valueOf(stateAndId[0]);
         //js方式获取
-        Integer userState = Integer.valueOf(req.getParameter("userState"));
-        String userid=req.getParameter("userid");
+        /*Integer userState = Integer.valueOf(req.getParameter("userState"));
+        String userid=req.getParameter("userid");*/
+
         userState=userState == 1 ? 2:1;
         JsonResult jsonResult=new JsonResult();
         try{

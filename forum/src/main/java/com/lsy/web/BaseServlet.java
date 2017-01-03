@@ -19,6 +19,7 @@ import java.io.PrintWriter;
 
 public class BaseServlet extends HttpServlet {
     public void forward(String path, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
         req.getRequestDispatcher("/WEB-INF/views/"+path).forward(req,resp);
     }
 
@@ -47,4 +48,6 @@ public class BaseServlet extends HttpServlet {
 
 
     }
+
+
 }
