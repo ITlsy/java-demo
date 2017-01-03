@@ -8,7 +8,7 @@ import com.lsy.util.DbHelp;
  */
 public class LoginLogDao {
     public void save(LoginLog log) {
-        String sql="insert into t_login_log(ip,userid)values(?,?)";
+        String sql="insert into t_login_log(ip,userid) values(?,?)";
         DbHelp.update(sql,log.getIp(),log.getUserid());
     }
 }

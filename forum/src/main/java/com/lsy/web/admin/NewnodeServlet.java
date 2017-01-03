@@ -4,6 +4,7 @@ import com.lsy.dto.JsonResult;
 import com.lsy.entitiy.Node;
 import com.lsy.exception.ServiceException;
 import com.lsy.service.NodeService;
+
 import com.lsy.service.TopicService;
 import com.lsy.web.BaseServlet;
 
@@ -13,31 +14,24 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/admin/nodeEdit")
-public class NodeEditServlet extends BaseServlet {
+/**
+ * Created by Administrator on 2017/1/2 0002.
+ */
+@WebServlet("/admin/newNode")
+public class NewnodeServlet extends BaseServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String nodeid=req.getParameter("nodeid");
-        TopicService topicService=new TopicService();
-        try {
-            Node node=topicService.findNodeById(nodeid);
-            req.setAttribute("node",node);
-            forward("admin/nodeEdit.jsp",req,resp);
-        }catch (ServiceException e){
-            resp.sendError(404);
+            forward("admin/newNode.jsp",req,resp);
 
-        }
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String nodeid=req.getParameter("nodeid");
         String nodename=req.getParameter("nodename");
-        System.out.println(nodename);
-        NodeService nodeService=new NodeService();
+        NodeService nodeService = new NodeService();
         JsonResult jsonResult=new JsonResult();
         try {
-            nodeService.updateNode(nodeid,nodename);
+            nodeService.addNode(nodename);
             jsonResult.setState(jsonResult.SUCCESS);
         }catch (ServiceException e){
             jsonResult.setState(jsonResult.ERROR);

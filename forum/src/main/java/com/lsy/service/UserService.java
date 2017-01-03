@@ -14,6 +14,8 @@ import com.lsy.exception.ServiceException;
 import com.lsy.util.Config;
 import com.lsy.util.EmailUtil;
 
+import com.lsy.util.Page;
+import com.lsy.vo.UserVo;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
@@ -21,10 +23,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.Timestamp;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 public class UserService {
@@ -267,6 +266,30 @@ public class UserService {
         }
 
 
+    }
+
+    public Page<UserVo> findUserList(Integer pageNo) {
+        Integer count=userDao.count();
+        Page<UserVo> page=new Page<>(count,pageNo);
+        List<User> userList=userDao.findAllUsers(page);
+        List<UserVo> userVoList=new ArrayList<>();
+
+        for (User user:userList){
+            UserVo userVo = userDao.findAllUserVo(user.getId());
+            userVoList.add(userVo);
+        }
+        page.setItems(userVoList);
+        return page;
+    }
+
+    public void updateUserState(String userid, Integer userState) {
+        if(StringUtils.isNumeric(userid)){
+            User user=userDao.findById(Integer.valueOf(userid));
+            user.setState(userState);
+            userDao.update(user);
+        }else {
+            throw new ServiceException("参数异常");
+        }
     }
 }
 

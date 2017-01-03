@@ -23,33 +23,75 @@
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <td>tom</td>
-            <td>2016-12-12 12:33</td>
-            <td>2016-12-34 11:11</td>
-            <td>23.33.221.56</td>
-            <td>
-                <a href="">禁用</a>
-            </td>
-        </tr>
+        <c:forEach items="${page.items}" var="userVo">
+            <tr>
+                <td>${userVo.username}</td>
+                <td>${userVo.createtime}</td>
+                <td>${userVo.lastLogintime}</td>
+                <td>${userVo.loginIp}</td>
+                <td>
+                    <a href="javascript:;" class="update" onClick="update(${userVo.userid},${userVo.userState})"
+                       rel="${userVo.userState},${userVo.userid}"> ${userVo.userState == '1'?'禁用':'恢复'}</a>
+                </td>
+            </tr>
+        </c:forEach>
         </tbody>
     </table>
     <div class="pagination pagination-mini pagination-centered">
         <ul id="pagination" style="margin-bottom:20px;"></ul>
     </div>
 </div>
+<script src="/static/js/jquery-1.11.3.min.js"></script>
+<script src="/static/js/jquery.twbsPagination.min.js"></script>
     <script>
-        $(function () {
+        $(function (){
             $("#pagination").twbsPagination({
                 totalPages:${page.totalPage},
-                visiblePages:5,
+                visiblePages:3,
                 first:'首页',
                 last:'末页',
                 prev:'上一页',
                 next:'下一页',
                 href: '?p={{number}}'
             });
+
+            /*$(".update").click(function () {
+             var state = $(this).attr("rel");
+             alert(state);
+
+             $.ajax({
+             url:"/admin/user",
+             type:"post",
+             data:{"userStateId":state},
+             success:function(data){
+             if(data.state == 'success') {
+             alert("修改成功");
+             window.history.go(0);
+
+             } else {
+             alert(data);
+             }
+             },
+             error:function(){
+             swal("服务器异常,删除失败!");
+             }
+             });
+
+             });*/
+
         });
+        
+        function update(userid,userState) {
+            $.post("/admin/user",{"userid":userid,"userState":userState},function (json) {
+               if(json.state=='success'){
+                   alert("修改成功");
+                   window.history.go(0);
+               }else {
+                   alert(json.message);
+               }
+            });
+            
+        }
     </script>
 </div>
 <!--container end-->

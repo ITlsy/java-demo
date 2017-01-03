@@ -25,7 +25,7 @@
 
         <form id="loginForm" action="" class="form-horizontal">
             <div class="control-group">
-                <label class="control-label">账号</label>
+                <label class="control-label autofocus" >账号</label>
                 <div class="controls">
                     <input type="text" name="adminName">
                 </div>
@@ -52,7 +52,6 @@
 <script src="/static/js/jquery-1.11.1.js"></script>
 <script src="/static/js/jquery.validate.min.js"></script>
 <script src="/static/js/admin/login.js"></script>
-
 </body>
 </html>
 

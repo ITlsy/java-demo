@@ -1,5 +1,6 @@
 package com.lsy.web.admin;
 
+import com.lsy.entitiy.Node;
 import com.lsy.entitiy.Topic;
 import com.lsy.exception.ServiceException;
 import com.lsy.service.AdminService;
@@ -13,6 +14,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Created by Administrator on 2016/12/28 0028.
@@ -26,6 +28,8 @@ public class AdminTopicServlet extends BaseServlet {
 
         TopicService topicService=new TopicService();
         Page<Topic> page=topicService.findAllTopics("",pageNo);
+        List<Node> nodeList = topicService.findAllNode();
+        req.setAttribute("nodeList",nodeList);
         req.setAttribute("page",page);
         forward("admin/topic.jsp",req,resp);
     }

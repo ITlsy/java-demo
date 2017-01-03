@@ -20,7 +20,7 @@ $(function(){
         if(event.keyCode == '13'){
             $("#loginBtn").click();
         }
-    })
+    });
     $("#loginForm").validate({
         errorElement:"span",
         errorClass:"text-error",

@@ -1,6 +1,7 @@
 package com.lsy.dao;
 
 import com.lsy.entitiy.Topic;
+import com.lsy.entitiy.TopicReplyCount;
 import com.lsy.entitiy.User;
 import com.lsy.util.Config;
 import com.lsy.util.DbHelp;
@@ -8,6 +9,7 @@ import com.lsy.util.StringUtils;
 import org.apache.commons.dbutils.BasicRowProcessor;
 import org.apache.commons.dbutils.handlers.AbstractListHandler;
 import org.apache.commons.dbutils.handlers.BeanHandler;
+import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
 
 import java.sql.ResultSet;
@@ -76,5 +78,19 @@ public class TopicDao {
     public void delById(String id) {
         String sql="delete from t_topic where id=?";
         DbHelp.update(sql,id);
+    }
+
+    public int findCountTopicByDay() {
+      //select count(*) from (select count(*) from t_topic
+        // group by DATE_FORMAT(createtime,'%y-%m-%d')) AS topicCount"
+
+        //以创建时间来按组分，七个天数 7
+        String sql="select count(*) from (select count(*) from t_topic group by date_format(createtime,'%y-%m-%d')) as topicCount";
+        return DbHelp.query(sql,new ScalarHandler<Long>()).intValue();
+    }
+
+    public List<TopicReplyCount> findTopicnumAndReplynumList(Integer start, Integer pageSize) {
+        String sql="SELECT COUNT(*) topicnum,DATE_FORMAT(createtime,'%y-%m-%d') 'time',(SELECT COUNT(*) FROM t_reply WHERE DATE_FORMAT(createtime,'%y-%m-%d') = DATE_FORMAT(t_topic.createtime,'%y-%m-%d')) 'replynum' FROM t_topic GROUP BY (DATE_FORMAT(createtime,'%y-%m-%d')) ORDER BY (DATE_FORMAT(createtime,'%y-%m-%d')) DESC LIMIT ?,?";
+        return DbHelp.query(sql,new BeanListHandler<>(TopicReplyCount.class),start,pageSize);
     }
 }

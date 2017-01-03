@@ -112,14 +112,30 @@ public class TopicService {
 
     public void updateTopicById(String title, String content, String nodeid, String topicid) {
         Topic topic=topicDao.findTopicById(topicid);
+        Integer lastNodeid=topic.getNodeid();
         if(topic.isEdit()){
             topic.setTitle(title);
             topic.setContent(content);
             topic.setNodeid(Integer.valueOf(nodeid));
             topicDao.update(topic);
+            updateNode(lastNodeid,nodeid);
         }else {
             throw new ServiceException("该帖已经不可编辑");
         }
+
+    }
+
+    private void updateNode(Integer lastNodeid, String nodeid) {
+    if(lastNodeid!=Integer.valueOf(nodeid)){
+        //更新node表，使得原來的node的topicnum -1
+       Node lastNode=nodeDao.findNodeById(lastNodeid);
+       lastNode.setTopicnum(lastNode.getTopicnum()-1);
+       nodeDao.update(lastNode);
+        //更新node表，使得新的node的topicnum + 1
+        Node newNode=nodeDao.findNodeById(Integer.valueOf(nodeid));
+        newNode.setTopicnum(newNode.getTopicnum()+1);
+        nodeDao.update(newNode);
+    }
 
     }
 
@@ -184,6 +200,29 @@ public class TopicService {
             }
         }else {
             throw new ServiceException("参数异常");
+        }
+    }
+
+    public Page<TopicReplyCount> getTopicnumAndReplynumByDayList(Integer pageNo) {
+        int count=topicDao.findCountTopicByDay();
+        Page<TopicReplyCount> page=new Page<>(count,pageNo);
+
+        List<TopicReplyCount> topicReplyCountList=topicDao.findTopicnumAndReplynumList(page.getStart(),page.getPageSize());
+        page.setItems(topicReplyCountList);
+        return page;
+    }
+
+    public void updateTopicNode(String topicid, String nodeid) {
+        if(StringUtils.isNumeric(nodeid)&&StringUtils.isNumeric(topicid)){
+            Topic topic=topicDao.findTopicById(topicid);
+            //更新topic的nodeid
+            topic.setNodeid(Integer.valueOf(nodeid));
+            topicDao.update(topic);
+            //更新node表中的topicnum字段
+            updateNode(topic.getNodeid(),nodeid);
+        }else{
+            throw new ServiceException("参数异常");
+
         }
     }
 }

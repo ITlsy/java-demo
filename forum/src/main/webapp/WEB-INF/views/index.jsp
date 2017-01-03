@@ -30,7 +30,7 @@
                             <img class="avatar" src="${topic.user.avatar}?imageView2/1/w/40/h/40" alt="">
                         </td>
                         <td width="80">
-                            <a href="/person">${topic.user.username}</a>
+                            <a href="">${topic.user.username}</a>
                         </td>
                         <td width="auto">
                             <a href="/topicDetail?topicid=${topic.id}">${topic.title}</a>
