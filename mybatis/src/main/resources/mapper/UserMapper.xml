@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lsy.mapper.UserMapper">
+
+    <cache/>
+    <!--
+       将select节点的useCache属性设置为false表示该查询结果不会放入到缓存中
+   -->
+<select id="findById" useCache="false" parameterType="int" resultType="User">
+    SELECT * FROM t_user WHERE id=#{id}
+</select>
+
+    <!--
+      useGeneratedKeys:true 表示使用自动增长的主键
+      keyProperty:id 将自动增长的主键赋值给parameterType对应类型的id属性
+      flushCache:false 不刷新缓存
+  -->
+<insert id="save" parameterType="User" useGeneratedKeys="true" keyProperty="id" flushCache="false">
+    INSERT INTO t_user (username,password) VALUES (#{username},#{password})
+</insert>
+    <insert id="bacthSave">
+       INSERT INTO t_user (username,password) VALUES
+        <foreach collection="list" item="user" separator=",">
+            (#{user.username},#{user.password})
+        </foreach>
+    </insert>
+
+    <update id="update" parameterType="User">
+        UPDATE t_user set username=#{username},password=#{password} WHERE id=#{id}
+    </update>
+
+    <delete id="delete" parameterType="int">
+        DELETE FROM t_user WHERE id=#{id}
+    </delete>
+
+    <select id="findAll" resultType="User">
+        SELECT * FROM t_user
+    </select>
+
+    <select id="findByUsernameAndPassword" resultType="User">
+        SELECT * FROM t_user WHERE username=#{param1} and password=#{param2}
+    </select>
+
+    <select id="findByUsernameAndPassword2" resultType="User">
+        SELECT * FROM t_user WHERE username=#{name} and password=#{pwd}
+    </select>
+
+    <select id="findByUsernameAndPassword3" resultType="User">
+        SELECT * FROM t_user WHERE username=#{username} and password=#{password}
+    </select>
+
+    <select id="findByParam" parameterType="map" resultType="User">
+        SELECT * FROM t_user
+        <trim prefix="where" prefixOverrides="and|or" suffixOverrides="and|or">
+            <if test="username != null and username != ''">
+                username = #{username} and
+            </if>
+            <if test="password != null and password != ''">
+                password= #{password}
+            </if>
+        </trim>
+
+       <!-- SELECT * FROM t_user WHERE
+        <if test="username != null and username != ''">
+            username = #{username}
+        </if>
+        <if test="password != null and password != ''">
+            and password= #{password}
+
+        </if>-->
+
+        <!-- SELECT * FROM t_user
+        <where>
+         <if test="username != null and username != ''">
+             username = #{username}
+         </if>
+         <if test="password != null and password != ''">
+          and password= #{password}
+
+         </if>
+          </where>-->
+
+
+        <!--SELECT * FROM t_user WHERE
+        <choose>
+            <when test="username!=null and username!=''">
+                username=#{username}
+            </when>
+            <when test="password != null and password !=''">
+              password=#{password}
+            </when>
+            <otherwise>
+
+            </otherwise>
+        </choose>-->
+
+    </select>
+    <select id="findByIds" resultType="com.lsy.pojo.User">
+        SELECT * FROM t_user WHERE id IN
+        <foreach collection="list" item="id" open="(" close=")" separator=",">
+          #{id}
+        </foreach>
+    </select>
+</mapper>

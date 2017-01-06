@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+        <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+                "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lsy.mapper.EmployeeMapper">
+    <!--<select id="findById"  resultMap="empMap">
+SELECT t_employee.id,ename,did,dname
+FROM t_employee
+INNER JOIN t_department ON
+t_employee.did=t_department.id
+WHERE t_employee.id=#{id}
+</select>
+//配置结果集映射
+<resultMap id="empMap" type="Employee">
+    <id column="id" property="id"/>
+    <result column="ename" property="ename"/>
+    <result column="did" property="did"/>
+    <association property="department" javaType="Department" column="did">
+       <id property="id" column="did"/>
+        <result property="dname" column="dname"/>
+    </association>
+</resultMap>-->
+
+    <select id="findById" resultType="Employee">
+SELECT t_employee.id,ename,did,t_department.id AS 'department.id',dname AS 'department.dname'
+FROM t_employee
+INNER JOIN t_department ON
+t_employee.did=t_department.id
+WHERE t_employee.id=#{id}
+    </select>
+    
+    <select id="findByDid" resultType="Employee">
+        SELECT * FROM t_employee WHERE did=#{did}
+    </select>
+
+    <select id="findAll" resultMap="allMap">
+        SELECT * FROM t_employee
+    </select>
+    <resultMap id="allMap" type="Employee">
+        <id column="id" property="id"/>
+        <result column="ename" property="ename"/>
+        <result column="did" property="did"/>
+        <association property="department" javaType="Department" column="did"
+          select="com.lsy.mapper.DepartmentMapper.findById"/>
+    </resultMap>
+</mapper>
