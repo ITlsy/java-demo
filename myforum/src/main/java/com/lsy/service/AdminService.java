@@ -8,6 +8,8 @@ import com.lsy.entitiy.Admin;
 import com.lsy.entitiy.Node;
 import com.lsy.entitiy.Topic;
 import com.lsy.exception.ServiceException;
+import com.lsy.mapper.NodeMapper;
+import com.lsy.mapper.ReplyMapper;
 import com.lsy.mapper.TopicMapper;
 import com.lsy.util.Config;
 import com.lsy.util.SqlSessionFactoryUtil;
@@ -22,6 +24,9 @@ import org.slf4j.LoggerFactory;
 public class AdminService {
      SqlSession sqlSession= SqlSessionFactoryUtil.getSqlSession();
     TopicMapper topicMapper=sqlSession.getMapper(TopicMapper.class);
+    ReplyMapper replyMapper=sqlSession.getMapper(ReplyMapper.class);
+    NodeMapper nodeMapper=sqlSession.getMapper(NodeMapper.class);
+
         Logger logger= LoggerFactory.getLogger(AdminService.class);
         ReplyDao replyDao=new ReplyDao();
         TopicDao topicDao=new TopicDao();
@@ -40,16 +45,16 @@ public class AdminService {
 
     public void delTopicById(String id) {
         //删除主题的回复
-        replyDao.delTopicById(id);
+        replyMapper.delTopicById(id);
         //更新节点下的主题数量
         //1.根据topicId 获取 nodeId
        Topic topic=topicMapper.findTopicById(id);
        if(topic!=null){
            //2.根据nodeid 获取node
-           Node node=nodeDao.findNodeById(topic.getNodeid());//null;
+           Node node=nodeMapper.findNodeById(topic.getNodeid());//null;
            //3.更新node节点
            node.setTopicnum(node.getTopicnum()-1);
-           nodeDao.update(node);
+           nodeMapper.update(node);
            //删除主题
            topicMapper.delById(id);
 

@@ -47,7 +47,7 @@ public class TopicDao {
         return DbHelp.query(sql,new ScalarHandler<Long>(),nodeid).intValue();
     }*/
 
-    public List<Topic> findAll(HashMap<String,Object> map) {
+   /* public List<Topic> findAll(HashMap<String,Object> map) {
         String sql="SELECT tu.username,tu.avatar,tt.* FROM t_topic tt,t_user tu WHERE tt.userid = tu.id ";
         String nodeid=map.get("nodeid")==null ?null:String.valueOf(map.get("nodeid"));
         String where="";
@@ -74,7 +74,7 @@ public class TopicDao {
            }
        },array.toArray());
     }
-
+*/
    /* public void delById(String id) {
         String sql="delete from t_topic where id=?";
         DbHelp.update(sql,id);
@@ -89,8 +89,8 @@ public class TopicDao {
         return DbHelp.query(sql,new ScalarHandler<Long>()).intValue();
     }*/
 
-    public List<TopicReplyCount> findTopicnumAndReplynumList(Integer start, Integer pageSize) {
+   /* public List<TopicReplyCount> findTopicnumAndReplynumList(Integer start, Integer pageSize) {
         String sql="SELECT COUNT(*) topicnum,DATE_FORMAT(createtime,'%y-%m-%d') 'time',(SELECT COUNT(*) FROM t_reply WHERE DATE_FORMAT(createtime,'%y-%m-%d') = DATE_FORMAT(t_topic.createtime,'%y-%m-%d')) 'replynum' FROM t_topic GROUP BY (DATE_FORMAT(createtime,'%y-%m-%d')) ORDER BY (DATE_FORMAT(createtime,'%y-%m-%d')) DESC LIMIT ?,?";
         return DbHelp.query(sql,new BeanListHandler<>(TopicReplyCount.class),start,pageSize);
-    }
+    }*/
 }

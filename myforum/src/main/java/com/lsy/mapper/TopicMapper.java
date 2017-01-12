@@ -1,13 +1,15 @@
 package com.lsy.mapper;
 import com.lsy.entitiy.Topic;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import com.lsy.entitiy.TopicReplyCount;
+import org.apache.ibatis.annotations.*;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2017/1/6 0006.
  */
+@CacheNamespace
 public interface TopicMapper {
     @Insert("insert into t_topic (title,content,nodeid,userid) values(#{title},#{content},#{nodeid},#{userid})")
     Integer save(Topic topic);
@@ -29,4 +31,9 @@ public interface TopicMapper {
 
     @Select("select count(*) from (select count(*) from t_topic group by date_format(createtime,'%y-%m-%d')) as topicCount")
     Integer findCountTopicByDay();
+
+    List<Topic> findAll(Map<String,Object> map);
+
+    @Select("SELECT COUNT(*) topicnum,DATE_FORMAT(createtime,'%y-%m-%d') 'time',(SELECT COUNT(*) FROM t_reply WHERE DATE_FORMAT(createtime,'%y-%m-%d') = DATE_FORMAT(t_topic.createtime,'%y-%m-%d')) 'replynum' FROM t_topic GROUP BY (DATE_FORMAT(createtime,'%y-%m-%d')) ORDER BY (DATE_FORMAT(createtime,'%y-%m-%d')) DESC LIMIT #{start},#{pageSize}")
+    List<TopicReplyCount> findTopicnumAndReplynumList(@Param("start") int start,@Param("pageSize") int pageSize);
 }

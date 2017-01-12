@@ -253,7 +253,7 @@ public class UserService {
 
 
     public List<Notify> findByUser(User user) {
-        return notifyDao.findByUser(user.getId());
+        return notifyDao.findByUserId(user.getId());
     }
 
     public void updateNotifyStateByIds(String ids) {

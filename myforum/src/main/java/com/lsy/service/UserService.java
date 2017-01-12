@@ -11,6 +11,8 @@ import com.lsy.entitiy.Notify;
 import com.lsy.entitiy.User;
 
 import com.lsy.exception.ServiceException;
+import com.lsy.mapper.LoginLogMapper;
+import com.lsy.mapper.NotifyMapper;
 import com.lsy.mapper.UserMapper;
 import com.lsy.util.Config;
 import com.lsy.util.EmailUtil;
@@ -32,6 +34,9 @@ import java.util.concurrent.TimeUnit;
 public class UserService {
     SqlSession sqlSession= SqlSessionFactoryUtil.getSqlSession(true);
     UserMapper userMapper=sqlSession.getMapper(UserMapper.class);
+    NotifyMapper notifyMapper=sqlSession.getMapper(NotifyMapper.class);
+    LoginLogMapper logMapper=sqlSession.getMapper(LoginLogMapper.class);
+
     private Logger logger = LoggerFactory.getLogger(UserService.class);
     private UserDao userDao = new UserDao();
     private LoginLogDao loginLogDao = new LoginLogDao();
@@ -135,7 +140,7 @@ public class UserService {
                 log.setIp(ip);
                 log.setUserid(user.getId());
 
-                loginLogDao.save(log);
+                logMapper.save(log);
                 logger.info("{}登录了系统,IP:{}", username, ip);
                 return user;
 
@@ -258,16 +263,16 @@ public class UserService {
 
 
     public List<Notify> findByUser(User user) {
-        return notifyDao.findByUser(user.getId());
+        return notifyMapper.findByUserId(user.getId());
     }
 
     public void updateNotifyStateByIds(String ids) {
         String idArray[] = ids.split(",");
         for (int i= 0 ;i <idArray.length;i++ ){
-            Notify notify = notifyDao.findById(idArray[i]);
+            Notify notify = notifyMapper.findById(idArray[i]);
             notify.setState(Notify.NOTIFY_STATE_READ);
             notify.setReadtime(new Timestamp(DateTime.now().getMillis()));
-            notifyDao.update(notify);
+            notifyMapper.update(notify);
         }
 
 

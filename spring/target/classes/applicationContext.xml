@@ -1,21 +1,19 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans.xsd">
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <!--
-        ·id: 容器内唯一
-        ·class：被管理bean的完全限定名
-        ·放入Spring容器的Bean，默认都是单例的 scope="singleton"
-        ·scope="prototype" 每次获取的都是不同的对象实例
-        ·Bean的对象默认会在Spring容器启动时创建。如果Bean的Scope值为prototype，那对象会在
-        调用时创建;如果Bean的Scope为singleton时，将lazy-init的属性设置true，那么对象也会在
-        调用时创建
-    -->
+    <!--基于注解的Bean管理和IOC-->
+    <context:component-scan base-package="com.lsy"/>
+    <!--基于注解的AOP-->
+    <aop:aspectj-autoproxy/>
 
-    <bean id="userDaoImpl" class="com.lsy.dao.impl.UserDaoImpl" lazy-init="true"/>
-   <!-- <bean id="userDaoImpl" class="com.lsy.dao.impl.UserDaoImpl" scope="prototype"/>-->
-   <!-- <alias name="userDaoImpl" alias="userDao"/>-->
 
 </beans>

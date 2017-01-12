@@ -15,7 +15,7 @@ public class NotifyDao {
     }
 
 
-    public List<Notify> findByUser(Integer id) {
+    public List<Notify> findByUserId(Integer id) {
         String sql="select * from t_notify where userid=? order by readtime,createtime";
         return DbHelp.query(sql,new BeanListHandler<>(Notify.class),id);
     }

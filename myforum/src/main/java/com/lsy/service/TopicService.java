@@ -4,8 +4,7 @@ import com.google.common.collect.Maps;
 import com.lsy.dao.*;
 import com.lsy.entitiy.*;
 import com.lsy.exception.ServiceException;
-import com.lsy.mapper.TopicMapper;
-import com.lsy.mapper.UserMapper;
+import com.lsy.mapper.*;
 import com.lsy.util.Config;
 import com.lsy.util.Page;
 import com.lsy.util.SqlSessionFactoryUtil;
@@ -21,6 +20,9 @@ public class TopicService {
     SqlSession sqlSession= SqlSessionFactoryUtil.getSqlSession(true);
     UserMapper userMapper=sqlSession.getMapper(UserMapper.class);
     TopicMapper topicMapper=sqlSession.getMapper(TopicMapper.class);
+    ReplyMapper replyMapper=sqlSession.getMapper(ReplyMapper.class);
+    NotifyMapper notifyMapper=sqlSession.getMapper(NotifyMapper.class);
+    NodeMapper nodeMapper=sqlSession.getMapper(NodeMapper.class);
 
     NodeDao nodeDao=new NodeDao();
     TopicDao topicDao=new TopicDao();
@@ -29,7 +31,7 @@ public class TopicService {
     FavDao favDao=new FavDao();
     NotifyDao notifyDao=new NotifyDao();
     public List<Node> findAllNode() {
-        List<Node> nodeList=nodeDao.findAllNodes();
+        List<Node> nodeList=nodeMapper.findAllNodes();
         return nodeList;
     }
 
@@ -47,10 +49,10 @@ public class TopicService {
         topic.setId(topicid);
 
         //更新node表的topicnum
-      Node node=nodeDao.findNodeById(nodeid);
+      Node node=nodeMapper.findNodeById(nodeid);
       if(node!=null){
           node.setTopicnum(node.getTopicnum()+1);
-          nodeDao.update(node);
+          nodeMapper.update(node);
 
       }else {
           throw new ServiceException("节点不存在");
@@ -65,7 +67,7 @@ public class TopicService {
             if(topic!=null){
                 //通过topic对象的userid、nodeid 获取user和node对象,并set到topic对象中
                 User user=userMapper.findById(topic.getUserid());
-                Node node=nodeDao.findNodeById(topic.getNodeid());
+                Node node=nodeMapper.findNodeById(topic.getNodeid());
                 user.setAvatar(Config.get("qiniu.domain")+user.getAvatar());
                topic.setUser(user);
                topic.setNode(node);
@@ -86,7 +88,7 @@ public class TopicService {
         reply.setContent(content);
         reply.setUserid(user.getId());
         reply.setTopicid(Integer.valueOf(topicid));
-        replyDao.addReply(reply);
+        replyMapper.addReply(reply);
 
         //更新t_topic表中的replynum 和 lastreplytime字段
         Topic topic=topicMapper.findTopicById(topicid);
@@ -105,13 +107,13 @@ public class TopicService {
             notify.setContent("您的主题 <a href=\"/topicDetail?topicid="+topic.getId()+"\">["+ topic.getTitle()+"] </a> 有了新的回复,请查看.");
            // notify.setContent("ok?");
             notify.setState(Notify.NOTIFY_STATE_UNREAD);
-            notifyDao.save(notify);
+            notifyMapper.save(notify);
         }
 
     }
 
     public List<Reply> findReplyListByTopicid(String topicid){
-        return replyDao.findReplyListByTopicid(topicid);
+        return replyMapper.findReplyListByTopicid(topicid);
     }
 
     public void updateTopicById(String title, String content, String nodeid, String topicid) {
@@ -132,13 +134,13 @@ public class TopicService {
     private void updateNode(Integer lastNodeid, String nodeid) {
     if(lastNodeid!=Integer.valueOf(nodeid)){
         //更新node表，使得原來的node的topicnum -1
-       Node lastNode=nodeDao.findNodeById(lastNodeid);
+       Node lastNode=nodeMapper.findNodeById(lastNodeid);
        lastNode.setTopicnum(lastNode.getTopicnum()-1);
-       nodeDao.update(lastNode);
+        nodeMapper.update(lastNode);
         //更新node表，使得新的node的topicnum + 1
-        Node newNode=nodeDao.findNodeById(Integer.valueOf(nodeid));
+        Node newNode=nodeMapper.findNodeById(Integer.valueOf(nodeid));
         newNode.setTopicnum(newNode.getTopicnum()+1);
-        nodeDao.update(newNode);
+        nodeMapper.update(newNode);
     }
 
     }
@@ -187,7 +189,7 @@ public class TopicService {
          map.put("start",topicPage.getStart());
          map.put("pageSize",topicPage.getPageSize());
 
-         List<Topic> topicList=topicDao.findAll(map);
+         List<Topic> topicList=topicMapper.findAll(map);
          topicPage.setItems(topicList);
          return topicPage;
 
@@ -196,7 +198,7 @@ public class TopicService {
     public Node findNodeById(String nodeid) {
 
         if(StringUtils.isNumeric(nodeid)){
-            Node node=nodeDao.findNodeById(Integer.valueOf(nodeid));
+            Node node=nodeMapper.findNodeById(Integer.valueOf(nodeid));
             if(node!=null){
                 return node;
             }else {
@@ -211,7 +213,7 @@ public class TopicService {
         int count=topicMapper.findCountTopicByDay();
         Page<TopicReplyCount> page=new Page<>(count,pageNo);
 
-        List<TopicReplyCount> topicReplyCountList=topicDao.findTopicnumAndReplynumList(page.getStart(),page.getPageSize());
+        List<TopicReplyCount> topicReplyCountList=topicMapper.findTopicnumAndReplynumList(page.getStart(),page.getPageSize());
         page.setItems(topicReplyCountList);
         return page;
     }

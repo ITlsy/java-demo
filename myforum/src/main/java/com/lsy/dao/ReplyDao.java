@@ -15,13 +15,13 @@ import java.util.List;
  * Created by Administrator on 2016/12/22 0022.
  */
 public class ReplyDao {
-    public void addReply(Reply reply) {
+  /*  public void addReply(Reply reply) {
         String sql="insert into t_reply (content,userid,topicid) values(?,?,?)";
         DbHelp.update(sql,reply.getContent(),reply.getUserid(),reply.getTopicid());
 
-    }
+    }*/
 
-    public List<Reply> findReplyListByTopicid(String topicid) {
+    /*public List<Reply> findReplyListByTopicid(String topicid) {
         String sql="select tu.id,tu.avatar,tu.username,tr.* from t_reply tr,t_user tu where tr.userid=tu.id and topicid=?";
         return DbHelp.query(sql, new AbstractListHandler<Reply>() {
             @Override
@@ -36,10 +36,10 @@ public class ReplyDao {
 
             }
         },topicid);
-    }
+    }*/
 
-    public void delTopicById(String id) {
+    /*public void delTopicById(String id) {
         String sql="delete from t_reply where topicid=?";
         DbHelp.update(sql,id);
-    }
+    }*/
 }

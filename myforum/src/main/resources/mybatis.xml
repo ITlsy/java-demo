@@ -14,6 +14,9 @@
 
     <typeAliases>
         <typeAlias type="com.lsy.entitiy.User" alias="User"/>
+        <typeAlias type="com.lsy.entitiy.Topic" alias="Topic"/>
+        <typeAlias type="com.lsy.entitiy.Reply" alias="Reply"/>
+        <typeAlias type="com.lsy.entitiy.Notify" alias="Notify"/>
 
     </typeAliases>
 
@@ -31,6 +34,9 @@
     <!--加载Mapper.xml文件-->
     <mappers>
         <mapper class="com.lsy.mapper.UserMapper"/>
+        <mapper resource="mapper/TopicMapper"/>
         <mapper class="com.lsy.mapper.TopicMapper"/>
+        <mapper class="com.lsy.mapper.NotifyMapper"/>
+        <mapper class="com.lsy.mapper.ReplyMapper"/>
     </mappers>
 </configuration>
