@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
@@ -39,6 +40,27 @@
                             <label>密码(如果不修改请留空)</label>
                             <input type="password" name="password" value="" class="form-control">
                         </div>
+
+                        <div class="form-group">
+                            <label>角色</label>
+                           <div>
+                               <c:forEach items="${roleList}" var="role">
+                                   <c:set var="flag" value="false" scope="page"/>
+                                   <c:forEach items="${user.roleList}" var="userRole">
+                               <label class="checkbox-inline">
+                                   <input type="checkbox" name="roleIds" checked value="${role.id}">${role.viewName}
+                               </label>
+                                       <c:set var="flag" value="true"/>
+                                   </c:forEach>
+                                   <c:if test="${not flag}">
+                                       <label class="checkbox-inline">
+                                           <input type="checkbox"  name="roleIds" value="${role.id}">${role.viewName}
+                                       </label>
+                                   </c:if>
+                               </c:forEach>
+                           </div>
+                        </div>
+
                         <div class="form-group">
                             <button class="btn btn-primary">保存</button>
                         </div>

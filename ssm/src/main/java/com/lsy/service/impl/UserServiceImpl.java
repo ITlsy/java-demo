@@ -47,13 +47,35 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public void delete(Integer id) {
+        //删除用户的角色
+        roleMapper.delRoleByUserId(id);
+        //删除用户
         userMapper.delete(id);
     }
 
     @Override
-    public void editUser(User user) {
+    public void editUser(User user, Integer[] roleIds) {
+        //删除原有角色
+        roleMapper.delRoleByUserId(user.getId());
+        //添加新角色
+        addUserRole(user,roleIds);
+        //更新用户
         userMapper.update(user);
+    }
+
+//公用方法
+    private void addUserRole(User user, Integer[] roleIds) {
+        if (roleIds!=null){
+            for (Integer roleId:roleIds){
+                Role role=roleMapper.findById(roleId);
+                if (role!=null){
+                    //创建关系表记录
+                    roleMapper.saveNewUserRole(user.getId(),roleId);
+                }
+            }
+        }
     }
 
     @Override
@@ -67,15 +89,7 @@ public class UserServiceImpl implements UserService {
         //1.保存用户
         userMapper.save(user);
         //2.保存用户和角色的关系
-        if (roleIds!=null){
-            for (Integer roleId:roleIds){
-                Role role=roleMapper.findById(roleId);
-                if (role!=null){
-                    //创建关系表记录
-                    roleMapper.saveNewUserRole(user.getId(),roleId);
-                }
-            }
-        }
+        addUserRole(user,roleIds);
 
     }
 }

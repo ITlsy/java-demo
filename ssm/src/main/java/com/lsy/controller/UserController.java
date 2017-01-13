@@ -57,6 +57,8 @@ public class UserController {
         if(user==null){
             throw new NotFoundException();
         }else {
+            List<Role> roleList=userService.findAllRole();
+            model.addAttribute("roleList",roleList);
             model.addAttribute("user",user);
             return"user/edit";
         }
@@ -64,8 +66,9 @@ public class UserController {
     }
 
     @RequestMapping(value = "/{id:\\d+}/edit",method = RequestMethod.POST)
-    public String editUser( User user,RedirectAttributes redirectAttributes){
-        userService.editUser(user);
+    public String editUser( User user,Integer[] roleIds,RedirectAttributes redirectAttributes){
+        //userService.editUser(user);
+        userService.editUser(user,roleIds);
         redirectAttributes.addFlashAttribute("message","修改成功");
         return "redirect:/user";
     }

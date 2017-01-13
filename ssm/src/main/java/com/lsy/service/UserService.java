@@ -17,7 +17,7 @@ public interface UserService {
 
     void delete(Integer id);
 
-    void editUser(User user);
+    void editUser(User user, Integer[] roleIds);
 
     List<Role> findAllRole();
 
