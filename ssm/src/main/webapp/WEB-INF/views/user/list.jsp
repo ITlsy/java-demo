@@ -29,21 +29,24 @@
                     </div>
                     <div class="box-body">
                         <c:if test="${not empty message}">
-                            <div class="alert alert-success">${message}</div>
+                            <div class="alert alert-success">
+                            ${message}
+                            <button class="close" type="button" data-dismiss="alert" aria-hidden="true">×</button>
+                            </div>
                         </c:if>
-
-                        <a href="/user/add" class="btn btn-primary">增加</a>
                         <table class="table">
                             <thead>
                             <tr>
                                 <th>姓名</th>
-                                <th>操作</th>
+                                <th>角色</th>
+                                <th width="100">操作</th>
                             </tr>
                             </thead>
                             <tbody>
                             <c:forEach items="${userList}" var="user">
                                 <tr>
                                     <td>${user.username}</td>
+                                    <td>${user.roleNames}</td>
                                     <td>
                                         <a href="/user/${user.id}/edit">编辑</a>
                                         <a href="/user/${user.id}/del">删除</a>

@@ -1,6 +1,7 @@
 package com.lsy.controller;
 
 import com.lsy.exception.NotFoundException;
+import com.lsy.pojo.Role;
 import com.lsy.pojo.User;
 import com.lsy.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,13 +31,15 @@ public class UserController {
 
     }
     @RequestMapping(value = "/add",method = RequestMethod.GET)
-    public String add(){
+    public String add(Model model){
+        List<Role> roleList=userService.findAllRole();
+        model.addAttribute("roleList",roleList);
     return "user/add";
     }
 
     @RequestMapping(value = "/add",method = RequestMethod.POST)
-    public String add(User user, RedirectAttributes redirectAttributes){
-        userService.save(user);
+    public String add(User user,Integer[] roleIds, RedirectAttributes redirectAttributes){
+        userService.save(user,roleIds);
         redirectAttributes.addFlashAttribute("message","保存成功");
         return "redirect:/user";
     }

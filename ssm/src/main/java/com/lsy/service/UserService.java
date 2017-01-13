@@ -1,5 +1,6 @@
 package com.lsy.service;
 
+import com.lsy.pojo.Role;
 import com.lsy.pojo.User;
 
 import java.util.List;
@@ -17,4 +18,8 @@ public interface UserService {
     void delete(Integer id);
 
     void editUser(User user);
+
+    List<Role> findAllRole();
+
+    void save(User user, Integer[] roleIds);
 }

@@ -3,10 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lsy.mapper.UserMapper">
 
-    <select id="findAll" resultType="com.lsy.pojo.User">
-        SELECT * FROM t_user
-    </select>
-    <insert id="save" >
+    <insert id="save" useGeneratedKeys="true" keyProperty="id" >
         INSERT INTO t_user (username,password) VALUES (#{username},#{password})
     </insert>
     <select id="findById" parameterType="int" resultType="User">
@@ -25,4 +22,26 @@
         </set>
         where id=#{id}
     </update>
+
+  <!--  <select id="findAll" resultType="com.lsy.pojo.User">
+        SELECT * FROM t_user
+    </select>-->
+
+    <select id="findAll" resultMap="UserMap">
+      SELECT t_user.*,t_role.id AS role_id,t_role.role_name,t_role.view_name
+ FROM t_user
+        LEFT JOIN t_user_role ON t_user.id = t_user_role.user_id
+        LEFT JOIN t_role ON t_user_role.role_id = t_role.id
+    </select>
+    
+    <resultMap id="UserMap" type="User">
+        <id column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <collection property="roleList" ofType="Role">
+            <id column="role_id" property="id"/>
+            <result column="role_name" property="roleName"/>
+            <result column="view_name" property="viewName"/>
+        </collection>
+    </resultMap>
 </mapper>

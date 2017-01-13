@@ -19,24 +19,36 @@
     <div class="content-wrapper">
         <!-- Main content -->
         <section class="content">
-
-            <!-- Default box -->
-            <div class="box">
+            <div class="box box-solid box-primary">
                 <div class="box-header with-border">
                     <h3 class="box-title">新建账户</h3>
                     <div class="box-tools pull-right">
-                            <a href="/user/new" class="btn"><i class="fa fa-plus"></i></a>
+                            <a href="/user/add" class="btn"><i class="fa fa-plus"></i></a>
                     </div>
                 </div>
                 <div class="box-body">
                     <form method="post">
                         <div class="form-group">
                             <label>账号</label>
-                            <input type="text" name="username" class="form-control">
+                            <input type="text" name="username" class="form-
+control">
                         </div>
                         <div class="form-group">
                             <label>密码</label>
-                            <input type="password" name="password" value="000000" class="form-control">
+                            <input type="password" name="password"
+                                   value="000000" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>角色</label>
+                            <div>
+                                <c:forEach items="${roleList}" var="role">
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" name="roleIds"
+                                               value="${role.id}"> ${role.viewName}
+
+                                    </label>
+                                </c:forEach>
+                            </div>
                         </div>
                         <div class="form-group">
                             <button class="btn btn-primary">保存</button>

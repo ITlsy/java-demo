@@ -3,9 +3,9 @@
     <!-- Logo -->
     <a href="../../index2.html" class="logo">
         <!-- mini logo for sidebar mini 50x50 pixels -->
-        <span class="logo-mini">KSIT</span>
+        <span class="logo-mini">LSY</span>
         <!-- logo for regular state and mobile devices -->
-        <span class="logo-lg">Kaishengit</span>
+        <span class="logo-lg">Liushuyan</span>
     </a>
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top">
