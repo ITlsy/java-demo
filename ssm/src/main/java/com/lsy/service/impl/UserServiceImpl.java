@@ -6,6 +6,7 @@ import com.lsy.pojo.Role;
 import com.lsy.pojo.User;
 import com.lsy.service.UserService;
 
+import com.lsy.util.db.Page;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -91,5 +92,23 @@ public class UserServiceImpl implements UserService {
         //2.保存用户和角色的关系
         addUserRole(user,roleIds);
 
+    }
+
+    @Override
+    public Page<User> findUserByPageNo(Integer pageNo) {
+        int total=userMapper.count().intValue();
+        Page<User> page=new Page<>(total,pageNo);
+        List<User> userList=userMapper.findByPage(page.getStart(),page.getPageSize());
+        page.setItems(userList);
+        return page;
+    }
+
+    @Override
+    public Page<User> findUserByPageNoAndParamSearch(Integer pageNo, String queryName, String queryRole) {
+       int total=userMapper.countByParam(queryName,queryRole).intValue();
+       Page<User> page=new Page<>(total,pageNo);
+       List<User> userList=userMapper.findByPageAndParam(page.getStart(),page.getPageSize(),queryName,queryRole);
+        page.setItems(userList);
+        return page;
     }
 }

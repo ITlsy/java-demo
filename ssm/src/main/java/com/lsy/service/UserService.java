@@ -2,6 +2,7 @@ package com.lsy.service;
 
 import com.lsy.pojo.Role;
 import com.lsy.pojo.User;
+import com.lsy.util.db.Page;
 
 import java.util.List;
 
@@ -22,4 +23,8 @@ public interface UserService {
     List<Role> findAllRole();
 
     void save(User user, Integer[] roleIds);
+
+    Page<User> findUserByPageNo(Integer pageNo);
+
+    Page<User> findUserByPageNoAndParamSearch(Integer p, String queryName, String queryRole);
 }

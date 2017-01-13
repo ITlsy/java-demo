@@ -3,12 +3,20 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lsy.mapper.UserMapper">
 
+    <cache/>
+
     <insert id="save" useGeneratedKeys="true" keyProperty="id" >
         INSERT INTO t_user (username,password) VALUES (#{username},#{password})
     </insert>
-    <select id="findById" parameterType="int" resultType="User">
+    <!--<select id="findById" parameterType="int" resultType="User">
         SELECT * FROM t_user where id=#{id}
+    </select>-->
+
+    <select id="findById" resultMap="UserMap">
+        <include refid="selectUserAndRole"/>
+        WHERE t_user.id=#{id}
     </select>
+
     <delete id="delete">
         DELETE FROM t_user where id=#{id}
     </delete>
@@ -27,13 +35,48 @@
         SELECT * FROM t_user
     </select>-->
 
-    <select id="findAll" resultMap="UserMap">
-      SELECT t_user.*,t_role.id AS role_id,t_role.role_name,t_role.view_name
+    <sql id="selectUserAndRole">
+        SELECT t_user.*,t_role.id AS role_id,t_role.role_name,t_role.view_name
  FROM t_user
         LEFT JOIN t_user_role ON t_user.id = t_user_role.user_id
         LEFT JOIN t_role ON t_user_role.role_id = t_role.id
+    </sql>
+
+    <select id="findAll" resultMap="UserMap">
+<include refid="selectUserAndRole"/>
     </select>
-    
+    <select id="findByPage" resultMap="userMap2">
+  SELECT * FROM  t_user limit ${start},${pageSize}
+    </select>
+    <select id="count" resultType="java.lang.Long">
+        SELECT count(*) FROM t_user
+    </select>
+    <select id="countByParam" resultType="java.lang.Long">
+    SELECT count(*) FROM t_user
+    LEFT JOIN t_user_role ON t_user.id=t_user_role.user_id
+    <where>
+        <if test="queryName!=null and queryName!=''">
+            username LIKE concat('%',#{queryName},'%')
+        </if>
+        <if test="queryRole!=null and queryRole!=''">
+            and t_user_role.role_id=#{queryRole}
+        </if>
+    </where>
+    </select>
+    <select id="findByPageAndParam" resultMap="userMap2">
+        SELECT * FROM t_user
+        LEFT JOIN t_user_role ON t_user.id=t_user_role.user_id
+        <where>
+            <if test="queryName!=null and queryName!=''">
+                username LIKE concat('%',#{queryName},'%')
+            </if>
+            <if test="queryRole!=null and queryRole!=''">
+                and t_user_role.role_id=#{queryRole}
+            </if>
+        </where>
+        limit ${start},${pageSize}
+    </select>
+
     <resultMap id="UserMap" type="User">
         <id column="id" property="id"/>
         <result column="username" property="username"/>
@@ -43,5 +86,12 @@
             <result column="role_name" property="roleName"/>
             <result column="view_name" property="viewName"/>
         </collection>
+    </resultMap>
+
+    <resultMap id="userMap2" type="User">
+        <id column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <collection property="roleList" ofType="Role" column="id" select="com.lsy.mapper.RoleMapper.findByUserId"/>
     </resultMap>
 </mapper>

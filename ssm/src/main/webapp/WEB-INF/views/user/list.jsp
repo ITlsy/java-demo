@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="cc" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,56 +18,97 @@
     </jsp:include>
 
         <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper">
-            <!-- Main content -->
-            <section class="content">
-                <div class="box box-solid box-primary">
-                    <div class="box-header with-border">
-                        <h3 class="box-title">账户管理</h3>
-                        <div class="box-tools pull-right">
-                            <a href="/user/add" class="btn"><i class="fa fa-plus"></i></a>
+    <div class="content-wrapper">
+        <!-- Main content -->
+        <section class="content">
+
+            <div class="box box-solid box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">搜索</h3>
+                </div>
+                <div class="box-body">
+                    <form class="form-inline">
+                        <div class="form-group">
+                            <input type="text" name="q_name" placeholder="姓名" class="form-control">
                         </div>
-                    </div>
-                    <div class="box-body">
-                        <c:if test="${not empty message}">
-                            <div class="alert alert-success">
-                            ${message}
-                            <button class="close" type="button" data-dismiss="alert" aria-hidden="true">×</button>
-                            </div>
-                        </c:if>
-                        <table class="table">
-                            <thead>
-                            <tr>
-                                <th>姓名</th>
-                                <th>角色</th>
-                                <th width="100">操作</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <c:forEach items="${userList}" var="user">
-                                <tr>
-                                    <td>${user.username}</td>
-                                    <td>${user.roleNames}</td>
-                                    <td>
-                                        <a href="/user/${user.id}/edit">编辑</a>
-                                        <a href="/user/${user.id}/del">删除</a>
-                                    </td>
-                                </tr>
-                            </c:forEach>
-                            </tbody>
-                        </table>
-                    </div>
+                        <div class="form-group">
+                            <select name="q_role" class="form-control">
+                                <option value="">--角色--</option>
+                                <cc:forEach items="${roleList}" var="role">
+                                    <option value="${role.id}">${role.viewName}</option>
+                                </cc:forEach>
+                            </select>
+                        </div>
+                        <button class="btn btn-default">搜索</button>
+                    </form>
 
                 </div>
+            </div>
 
-            </section>
-            <!-- /.content -->
-        </div>
+            <div class="box box-solid box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">账户管理</h3>
+                    <div class="box-tools pull-right">
+                        <a href="/user/add" class="btn"><i class="fa fa-plus"></i></a>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <c:if test="${not empty message}">
+                        <div class="alert alert-success">
+                                ${message}
+                            <button class="close" type="button" data-dismiss="alert" aria-hidden="true">×</button>
+                        </div>
+                    </c:if>
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>姓名</th>
+                            <th>角色</th>
+                            <th width="100">操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <%--<c:forEach items="${userList}" var="user">--%>
+                        <c:forEach items="${page.items}" var="user">
+                            <tr>
+                                <td>${user.username}</td>
+                                <td>${user.roleNames}</td>
+                                <td>
+                                    <a href="/user/${user.id}/edit">编辑</a>
+                                    <a href="/user/${user.id}/del">删除</a>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="box-footer">
+                    <ul style="margin:5px 0px" id="pagination" class="pagination pull-right"></ul>
+                </div>
+            </div>
+
+        </section>
+        <!-- /.content -->
+    </div>
     <!-- /.content-wrapper -->
 
 </div>
 
 <%@include file="../include/js.jsp"%>
+<script src="/static/plugins/jquery.twbsPagination.min.js"></script>
+<script>
+    $(function () {
+        $("#pagination").twbsPagination({
+            totalPages:${page.totalPage},
+            visiblePages:5,
+            href:"/user?p={{number}}",
+            first:"首页",
+            prev:"上一页",
+            next:"下一页",
+            last:"末页"
+        });
+    });
+</script>
 </body>
 </html>
 

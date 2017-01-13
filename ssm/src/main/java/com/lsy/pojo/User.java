@@ -48,18 +48,20 @@ public class User implements Serializable {
         this.roleList = roleList;
     }
 
-    public String getRoleNames(){
-        List<String> viewNames= Lists.newArrayList(Collections2.transform(getRoleList(), new Function<Role, String>() {
+    public String getRoleNames() {
+        List<String> viewNames = Lists.newArrayList(Collections2.transform(getRoleList(), new Function<Role, String>() {
             @Override
             public String apply(Role role) {
                 return role.getViewName();
             }
         }));
-        StringBuilder stringBuilder=new StringBuilder();
-        for (String viewName:viewNames){
+
+        StringBuilder stringBuilder = new StringBuilder();
+        for(String viewName : viewNames) {
             stringBuilder.append(viewName).append(" ");
         }
-    return stringBuilder.toString();
+
+        return stringBuilder.toString();
     }
 
 

@@ -1,6 +1,7 @@
 package com.lsy.mapper;
 
 import com.lsy.pojo.Role;
+import com.lsy.pojo.User;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -16,4 +17,7 @@ public interface RoleMapper {
     Role findById(Integer roleId);
 
     void delRoleByUserId(Integer id);
+
+    List<Role> findByUserId(Integer userId);
+
 }

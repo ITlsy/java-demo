@@ -22,9 +22,6 @@
             <div class="box box-solid box-primary">
                 <div class="box-header with-border">
                     <h3 class="box-title">新建账户</h3>
-                    <div class="box-tools pull-right">
-                            <a href="/user/add" class="btn"><i class="fa fa-plus"></i></a>
-                    </div>
                 </div>
                 <div class="box-body">
                     <form method="post">
