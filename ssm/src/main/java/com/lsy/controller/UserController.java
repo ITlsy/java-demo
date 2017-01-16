@@ -7,7 +7,6 @@ import com.lsy.service.UserService;
 
 import com.lsy.util.db.Page;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +48,8 @@ public class UserController {
         List<Role> roleList=userService.findAllRole();
         model.addAttribute("roleList",roleList);
         model.addAttribute("page",page);
+        model.addAttribute("queryName",queryName);
+        model.addAttribute("queryRole",queryRole);
         return "user/list";
 
     }

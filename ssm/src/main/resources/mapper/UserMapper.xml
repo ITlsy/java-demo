@@ -53,7 +53,9 @@
     </select>
     <select id="countByParam" resultType="java.lang.Long">
     SELECT count(*) FROM t_user
+        <if test="queryRole != null and queryRole != ''">
     LEFT JOIN t_user_role ON t_user.id=t_user_role.user_id
+        </if>
     <where>
         <if test="queryName!=null and queryName!=''">
             username LIKE concat('%',#{queryName},'%')
@@ -65,7 +67,9 @@
     </select>
     <select id="findByPageAndParam" resultMap="userMap2">
         SELECT * FROM t_user
+        <if test="queryRole != null and queryRole != ''">
         LEFT JOIN t_user_role ON t_user.id=t_user_role.user_id
+        </if>
         <where>
             <if test="queryName!=null and queryName!=''">
                 username LIKE concat('%',#{queryName},'%')

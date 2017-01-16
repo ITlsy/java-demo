@@ -24,18 +24,18 @@
 
             <div class="box box-solid box-primary">
                 <div class="box-header with-border">
-                    <h3 class="box-title">搜索</h3>
+                    <h3 class="box-title"><i class="fa fa-search"></i> 搜索</h3>
                 </div>
                 <div class="box-body">
                     <form class="form-inline">
                         <div class="form-group">
-                            <input type="text" name="q_name" placeholder="姓名" class="form-control">
+                            <input type="text" name="q_name" placeholder="姓名" value="${queryName}" class="form-control">
                         </div>
                         <div class="form-group">
                             <select name="q_role" class="form-control">
                                 <option value="">--角色--</option>
                                 <cc:forEach items="${roleList}" var="role">
-                                    <option value="${role.id}">${role.viewName}</option>
+                                    <option value="${role.id}" ${role.id==queryRole ?'selected':''}>${role.viewName}</option>
                                 </cc:forEach>
                             </select>
                         </div>
@@ -101,7 +101,7 @@
         $("#pagination").twbsPagination({
             totalPages:${page.totalPage},
             visiblePages:5,
-            href:"/user?p={{number}}",
+            href:"/user?q_name=${queryName}&q_role=${queryRole}&p={{number}}",
             first:"首页",
             prev:"上一页",
             next:"下一页",
