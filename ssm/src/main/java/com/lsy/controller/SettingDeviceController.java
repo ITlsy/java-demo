@@ -69,7 +69,6 @@ public class SettingDeviceController {
 
     @PostMapping("/add")
     public String addDevice(Device device, RedirectAttributes redirectAttributes){
-        System.out.println(device);
         deviceService.addDevice(device);
         redirectAttributes.addFlashAttribute("message","添加成功");
         return "redirect:/setting/device";

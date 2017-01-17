@@ -80,6 +80,9 @@
         </where>
         limit ${start},${pageSize}
     </select>
+    <select id="findByUsername" resultType="com.lsy.pojo.User">
+        SELECT * FROM t_user WHERE username=#{username}
+    </select>
 
     <resultMap id="UserMap" type="User">
         <id column="id" property="id"/>

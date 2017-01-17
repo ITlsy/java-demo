@@ -3,6 +3,9 @@ package com.lsy.service.impl;
 import com.lsy.mapper.DeviceMapper;
 import com.lsy.pojo.Device;
 import com.lsy.service.DeviceService;
+import com.lsy.shiro.ShiroUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +17,7 @@ import java.util.Map;
  */
 @Service
 public class DeviceServiceImpl implements DeviceService {
+    private Logger logger= LoggerFactory.getLogger(DeviceServiceImpl.class);
     @Autowired
     private DeviceMapper deviceMapper;
 
@@ -22,6 +26,7 @@ public class DeviceServiceImpl implements DeviceService {
         //让当前库存数量和总数量相同
         device.setCurrentNum(device.getTotalNum());
         deviceMapper.addDevice(device);
+        logger.info("{}添加了新设备{}",ShiroUtil.getCurrentUserName(),device.getName());
     }
 
     @Override

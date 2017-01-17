@@ -29,6 +29,12 @@
                     </li>
                 </ul>
             </li>
+            <li class="header">用户模块</li>
+            <li class="treeview">
+                <a href="/logout">
+                    <i class="fa fa-dashboard"></i><span>安全退出</span>
+                </a>
+            </li>
 
         </ul>
     </section>
