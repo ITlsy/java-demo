@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!-- Left side column. contains the sidebar -->
 <aside class="main-sidebar">
@@ -6,7 +7,8 @@
     <section class="sidebar">
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu">
-            <li class="header">MAIN NAVIGATION</li>
+            <shiro:hasRole name="role_admin">
+            <li class="header">设置模块</li>
             <li class="treeview">
                 <a href="#">
                     <i class="fa fa-dashboard"></i> <span>Dashboard</span> <i class="fa fa-angle-left pull-right"></i>
@@ -29,6 +31,27 @@
                     </li>
                 </ul>
             </li>
+            </shiro:hasRole>
+            <li class="header">业务模块</li>
+            <shiro:hasRole name="role_person">
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-dashboard"></i> <span>财务报表</span> <i class="fa fa-angle-left pull-right"></i>
+                    </a>
+                </li>
+            </shiro:hasRole>
+            <shiro:hasRole name="role_sales">
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-dashboard"></i> <span>设备租赁</span> <i class="fa fa-angle-left pull-right"></i>
+                    </a>
+                </li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-dashboard"></i> <span>劳务派遣</span> <i class="fa fa-angle-left pull-right"></i>
+                    </a>
+                </li>
+            </shiro:hasRole>
             <li class="header">用户模块</li>
             <li class="treeview">
                 <a href="/logout">
