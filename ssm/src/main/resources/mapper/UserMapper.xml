@@ -31,44 +31,44 @@
         where id=#{id}
     </update>
 
-  <!--  <select id="findAll" resultType="com.lsy.pojo.User">
-        SELECT * FROM t_user
-    </select>-->
+    <!--  <select id="findAll" resultType="com.lsy.pojo.User">
+          SELECT * FROM t_user
+      </select>-->
 
     <sql id="selectUserAndRole">
         SELECT t_user.*,t_role.id AS role_id,t_role.role_name,t_role.view_name
- FROM t_user
+        FROM t_user
         LEFT JOIN t_user_role ON t_user.id = t_user_role.user_id
         LEFT JOIN t_role ON t_user_role.role_id = t_role.id
     </sql>
 
     <select id="findAll" resultMap="UserMap">
-<include refid="selectUserAndRole"/>
+        <include refid="selectUserAndRole"/>
     </select>
     <select id="findByPage" resultMap="userMap2">
-  SELECT * FROM  t_user limit ${start},${pageSize}
+        SELECT * FROM  t_user limit ${start},${pageSize}
     </select>
     <select id="count" resultType="java.lang.Long">
         SELECT count(*) FROM t_user
     </select>
     <select id="countByParam" resultType="java.lang.Long">
-    SELECT count(*) FROM t_user
+        SELECT count(*) FROM t_user
         <if test="queryRole != null and queryRole != ''">
-    LEFT JOIN t_user_role ON t_user.id=t_user_role.user_id
+            LEFT JOIN t_user_role ON t_user.id=t_user_role.user_id
         </if>
-    <where>
-        <if test="queryName!=null and queryName!=''">
-            username LIKE concat('%',#{queryName},'%')
-        </if>
-        <if test="queryRole!=null and queryRole!=''">
-            and t_user_role.role_id=#{queryRole}
-        </if>
-    </where>
+        <where>
+            <if test="queryName!=null and queryName!=''">
+                username LIKE concat('%',#{queryName},'%')
+            </if>
+            <if test="queryRole!=null and queryRole!=''">
+                and t_user_role.role_id=#{queryRole}
+            </if>
+        </where>
     </select>
     <select id="findByPageAndParam" resultMap="userMap2">
         SELECT * FROM t_user
         <if test="queryRole != null and queryRole != ''">
-        LEFT JOIN t_user_role ON t_user.id=t_user_role.user_id
+            LEFT JOIN t_user_role ON t_user.id=t_user_role.user_id
         </if>
         <where>
             <if test="queryName!=null and queryName!=''">

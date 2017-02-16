@@ -20,7 +20,7 @@ public class VocabularyServlet extends HttpServlet {
         String query=req.getParameter("query");
         String url="http://fanyi.youdao.com/openapi.do?keyfrom=kaishengit&key=1587754017&type=data&doctype" +
                 "=xml&version=1.1&q="+query;
-        String result= HttpUtil.sendHttpGetRequestWithString(url);
+        String result= HttpUtil.sendHttpGetRequesttWihString(url);
         resp.setCharacterEncoding("UTF-8");
         resp.setContentType("text/xml;charset=UTF-8");
         PrintWriter out=resp.getWriter();

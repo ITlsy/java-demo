@@ -1,4 +1,5 @@
 com\lsy\controller\UserController.class
+com\lsy\exception\NotFoundException.class
 com\lsy\controller\HomeController.class
 com\lsy\controller\UserController1.class
 com\lsy\pojo\Account.class

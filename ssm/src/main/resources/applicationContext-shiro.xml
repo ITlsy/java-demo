@@ -4,6 +4,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
 http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+    <bean id="shiroDbRealm" class="com.lsy.shiro.ShiroDbRealm" autowire="byName"/>
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
         <property name="realm" ref="shiroDbRealm"/>
         <property name="cacheManager" ref="cacheManager"/>

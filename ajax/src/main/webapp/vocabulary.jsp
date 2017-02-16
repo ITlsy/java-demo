@@ -42,7 +42,7 @@
 
              }
              
-         }
+         };
 
          xmlHttp.send();
 

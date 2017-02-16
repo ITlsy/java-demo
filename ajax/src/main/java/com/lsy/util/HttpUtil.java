@@ -13,7 +13,7 @@ import java.io.InputStream;
  * Created by Administrator on 2016/12/6 0006.
  */
 public class HttpUtil {
-    public static String sendHttpGetRequestWithString(String url) throws IOException {
+    public static String sendHttpGetRequesttWihString(String url) throws IOException {
         CloseableHttpClient httpClient= HttpClients.createDefault();
         HttpGet httpGet=new HttpGet(url);
         try {
