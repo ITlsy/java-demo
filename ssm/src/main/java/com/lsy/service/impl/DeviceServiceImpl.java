@@ -58,4 +58,14 @@ public class DeviceServiceImpl implements DeviceService {
     public void delDevice(Integer id) {
         deviceMapper.delDevice(id);
     }
+
+    @Override
+    public List<Device> findAllDevice() {
+        return deviceMapper.findAll();
+    }
+
+    @Override
+    public Device findDeviceById(Integer id) {
+        return deviceMapper.findById(id);
+    }
 }

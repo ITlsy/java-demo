@@ -41,4 +41,7 @@ SELECT * FROM t_device
             </if>
         </where>
     </select>
+    <select id="findById" resultType="com.lsy.pojo.Device">
+        SELECT * FROM t_device WHERE id=#{id}
+    </select>
 </mapper>

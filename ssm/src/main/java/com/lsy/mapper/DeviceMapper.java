@@ -23,4 +23,6 @@ public interface DeviceMapper {
     Long countBySearchParam(Map<String, Object> searchParam);
 
     void delDevice(Integer id);
+
+    Device findById(Integer id);
 }
