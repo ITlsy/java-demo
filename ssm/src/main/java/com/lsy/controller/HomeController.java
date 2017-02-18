@@ -49,7 +49,7 @@ public class HomeController {
 
     @RequestMapping(value = "/home",method = RequestMethod.GET)
     public String home(){
-        return "demo";
+        return "home";
     }
 
     @RequestMapping("/403")
