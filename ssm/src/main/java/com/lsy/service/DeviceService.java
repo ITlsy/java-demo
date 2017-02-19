@@ -1,6 +1,10 @@
 package com.lsy.service;
 
+import com.lsy.dto.DeviceRentDto;
 import com.lsy.pojo.Device;
+import com.lsy.pojo.DeviceRent;
+import com.lsy.pojo.DeviceRentDetail;
+import com.lsy.pojo.DeviceRentDocs;
 
 import java.util.List;
 import java.util.Map;
@@ -26,4 +30,13 @@ public interface DeviceService {
     List<Device> findAllDevice();
 
     Device findDeviceById(Integer id);
+
+
+    String saveRent(DeviceRentDto deviceRentDto);
+
+    DeviceRent findDeviceRentBySerialNumber(String serialNumber);
+
+    List<DeviceRentDetail> findDeviceRentDetailByRentId(Integer id);
+
+    List<DeviceRentDocs> findDeviceRentDocsByRentId(Integer id);
 }
