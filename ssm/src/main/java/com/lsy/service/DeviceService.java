@@ -6,8 +6,12 @@ import com.lsy.pojo.DeviceRent;
 import com.lsy.pojo.DeviceRentDetail;
 import com.lsy.pojo.DeviceRentDocs;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
+import java.util.zip.ZipOutputStream;
 
 /**
  * Created by Administrator on 2017/1/13 0013.
@@ -39,4 +43,12 @@ public interface DeviceService {
     List<DeviceRentDetail> findDeviceRentDetailByRentId(Integer id);
 
     List<DeviceRentDocs> findDeviceRentDocsByRentId(Integer id);
+
+    InputStream downloadFile(Integer id) throws IOException;
+
+    DeviceRentDocs findDeviceRentDocById(Integer id);
+
+    DeviceRent findDeviceRentById(Integer id);
+
+    void downloadZipFile(DeviceRent deviceRent, ZipOutputStream zipOutputStream) throws IOException;
 }

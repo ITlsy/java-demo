@@ -25,4 +25,6 @@ public interface DeviceMapper {
     void delDevice(Integer id);
 
     Device findById(Integer id);
+
+    void updateCurrentNum(Device device);
 }

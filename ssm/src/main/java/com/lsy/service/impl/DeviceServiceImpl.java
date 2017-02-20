@@ -3,6 +3,7 @@ package com.lsy.service.impl;
 import com.google.common.collect.Lists;
 
 import com.lsy.dto.DeviceRentDto;
+import com.lsy.exception.ServiceException;
 import com.lsy.mapper.DeviceMapper;
 import com.lsy.mapper.DeviceRentDetailMapper;
 import com.lsy.mapper.DeviceRentDocsMapper;
@@ -14,14 +15,18 @@ import com.lsy.pojo.DeviceRentDocs;
 import com.lsy.service.DeviceService;
 import com.lsy.shiro.ShiroUtil;
 import com.lsy.util.SerialNumberUtil;
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.*;
 import java.util.List;
 import java.util.Map;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 /**
  * Created by Administrator on 2017/1/13 0013.
@@ -113,6 +118,13 @@ public class DeviceServiceImpl implements DeviceService {
         List<DeviceRentDetail> detailList= Lists.newArrayList();
         float total=0f;
         for (DeviceRentDto.DeviceArrayBean bean:deviceArray){
+            Device device=deviceMapper.findById(bean.getId());
+            if(device.getCurrentNum()<bean.getNum()){
+                throw new ServiceException(device.getName()+"库存不足");
+            }else {
+                device.setCurrentNum(device.getCurrentNum()-bean.getNum());
+                deviceMapper.updateCurrentNum(device);
+            }
             DeviceRentDetail deviceRentDetail=new DeviceRentDetail();
             deviceRentDetail.setDeviceName(bean.getName());
             deviceRentDetail.setDeviceUnit(bean.getUnit());
@@ -169,6 +181,51 @@ public class DeviceServiceImpl implements DeviceService {
     @Override
     public List<DeviceRentDocs> findDeviceRentDocsByRentId(Integer id) {
         return rentDocsMapper.findByRentId(id);
+    }
+
+    @Override
+    public InputStream downloadFile(Integer docId) throws IOException {
+        DeviceRentDocs doc=rentDocsMapper.findById(docId);
+        if (doc==null) {
+            return null;
+        }else {
+            File file=new File(("F:/upload"),doc.getNewName());
+            if (file.exists()){
+                return new FileInputStream(file);
+            }else {
+                return null;
+            }
+
+        }
+    }
+
+    @Override
+    public DeviceRentDocs findDeviceRentDocById(Integer id) {
+        return rentDocsMapper.findById(id);
+    }
+
+    @Override
+    public DeviceRent findDeviceRentById(Integer id) {
+        return rentMapper.findById(id);
+    }
+
+    @Override
+    public void downloadZipFile(DeviceRent deviceRent, ZipOutputStream zipOutputStream) throws IOException {
+        //查找合同有多少个附件
+        List<DeviceRentDocs> rentDocsList=findDeviceRentDocsByRentId(deviceRent.getId());
+        for (DeviceRentDocs doc:rentDocsList){
+            //entry是每个压缩包里的文件
+            ZipEntry entry=new ZipEntry(doc.getSourceName());
+            zipOutputStream.putNextEntry(entry);
+
+            InputStream inputStream=downloadFile(doc.getId());
+            IOUtils.copy(inputStream,zipOutputStream);
+            inputStream.close();
+
+        }
+        zipOutputStream.closeEntry();
+        zipOutputStream.flush();
+        zipOutputStream.close();
     }
 
 

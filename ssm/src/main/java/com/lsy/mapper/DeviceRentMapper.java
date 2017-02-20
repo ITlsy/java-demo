@@ -12,4 +12,6 @@ public interface DeviceRentMapper {
     void updateCost(@Param("totalPrice") float total,@Param("preCost") float preCost, @Param("lastCost") float lastCost,@Param("id") Integer id);
 
     DeviceRent findSerialNumber(String serialNumber);
+
+    DeviceRent findById(Integer id);
 }
