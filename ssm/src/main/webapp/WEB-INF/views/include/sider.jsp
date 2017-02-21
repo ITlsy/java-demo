@@ -14,13 +14,13 @@
                     <i class="fa fa-circle-o"></i> <span>设备租赁</span>
                 </a>
             </li>
-            <li class="treeview" ${param.menu == 'business_device_work' ? 'active' : ''}>
+            <li class="treeview ${param.menu == 'business_device_work' ? 'active' : ''}" >
                 <a href="/device/work">
                     <i class="fa fa-circle-o"></i> <span>劳务派遣</span>
                 </a>
             </li>
-            <li class="treeview">
-                <a href="#">
+            <li class="treeview ${param.menu == 'pan' ? 'active' : ''}" >
+                <a href="/pan">
                     <i class="fa fa-circle-o"></i> <span>网盘系统</span>
                 </a>
             </li>

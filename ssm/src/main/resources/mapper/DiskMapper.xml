@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lsy.mapper.DiskMapper">
+    <insert id="saveFolder">
+        INSERT INTO t_disk (source_name,name,fid,size,type,create_user,create_time)
+        VALUES (#{sourceName},#{name},#{fid},#{size},#{type},#{createUser},#{createTime})
+    </insert>
+    <select id="findByFid" resultType="com.lsy.pojo.Disk">
+      SELECT * FROM t_disk WHERE fid=#{path}
+    </select>
+</mapper>

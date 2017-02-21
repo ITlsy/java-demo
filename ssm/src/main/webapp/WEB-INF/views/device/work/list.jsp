@@ -11,7 +11,9 @@
 <!-- Site wrapper -->
 <div class="wrapper">
     <%@include file="../../include/header.jsp"%>
-    <%@include file="../../include/sider.jsp"%>
+    <jsp:include page="../../include/sider.jsp">
+        <jsp:param name="menu" value="business_device_work"/>
+    </jsp:include>
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
@@ -33,7 +35,7 @@
 
             <!-- Default box -->
             <div class="box">
-                <div class="box-header witd-border">
+                <div class="box-header with-border">
                     <h3 class="box-title">劳务外包流水</h3>
 
                     <div class="box-tools pull-right">
@@ -45,7 +47,7 @@
                 </div>
                 <div class="box-body">
                     <div class="box">
-                        <div id="filtrate-box" class="screen-condition scd01"><!-- 筛选开始 -->
+                        <div class="box-header with-border"><!-- 筛选开始 -->
                             <form action="" class="form-inline">
                                 <div class="form-group form-marginR">
                                     <label for="exampleInputName2">流水号:</label>
@@ -65,6 +67,7 @@
                                     <input type="hidden" name="workFlowType" id="workFlowType">
                                     <!-- </div> -->
                                 </div>
+                                <div></div>
                                 <div class="form-group form-marginR">
                                     <label for="exampleInputName2">起止时间:</label>
                                     <div class="input-group">
