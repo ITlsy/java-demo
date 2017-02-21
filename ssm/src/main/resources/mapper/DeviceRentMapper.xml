@@ -9,10 +9,20 @@
     <update id="updateCost">
         UPDATE t_device_rent SET total_price=#{totalPrice},pre_cost=#{preCost},last_cost=#{lastCost} where id=#{id}
     </update>
+    <update id="updateState">
+        UPDATE t_device_rent SET state=#{state} where id=#{id}
+    </update>
     <select id="findSerialNumber" resultType="com.lsy.pojo.DeviceRent">
         SELECT * FROM t_device_rent WHERE serial_number=#{serialNumber}
     </select>
     <select id="findById" resultType="com.lsy.pojo.DeviceRent">
         SELECT * FROM t_device_rent  where id=#{id}
+    </select>
+    <select id="findByQueryParam" resultType="com.lsy.pojo.DeviceRent">
+        SELECT * FROM t_device_rent ORDER BY id DESC
+        limit ${start},${length}
+    </select>
+    <select id="count" resultType="java.lang.Long">
+        SELECT count(*) FROM t_device_rent
     </select>
 </mapper>

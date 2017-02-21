@@ -8,9 +8,11 @@ import com.lsy.service.UserService;
 
 import com.lsy.util.db.Page;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,7 +29,7 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
     @Autowired
     private RoleMapper roleMapper;
-    @Value("${password.salt}")
+@Value("${password.salt}")
     private String salt;
 
     @Override
@@ -63,6 +65,9 @@ public class UserServiceImpl implements UserService {
         //添加新角色
         addUserRole(user,roleIds);
         //更新用户
+        if(StringUtils.isNotEmpty(user.getPassword())){
+            user.setPassword(DigestUtils.md5Hex(user.getPassword()+salt));
+        }
         userMapper.update(user);
     }
 

@@ -12,12 +12,14 @@
 <!--spring配置文件-->
 
     <!--自动扫描-->
+    <!--自动扫描-->
     <context:component-scan base-package="com.lsy">
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
     </context:component-scan>
-    <!--数据库连接池-->
-    <context:property-placeholder location="classpath:config.properties"/>
 
+
+    <context:property-placeholder location="classpath:config.properties"/>
+    <!--数据库连接池-->
     <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
         <property name="driverClassName" value="${jdbc.driver}"/>
         <property name="url" value="${jdbc.url}"/>
@@ -25,11 +27,13 @@
         <property name="password" value="${jdbc.password}"/>
     </bean>
 
+
     <!--事务管理器-->
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource"/>
     </bean>
-    <!--基于注解的事物-->
+
+    <!--基于注解的事务-->
     <tx:annotation-driven transaction-manager="transactionManager"/>
 
     <!--mybatis sqlSessionFactoryBean-->
@@ -48,15 +52,4 @@
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="basePackage" value="com.lsy.mapper"/>
     </bean>
-
-
-
-
-
-
-
-
-
-
-
 </beans>

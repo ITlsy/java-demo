@@ -19,6 +19,7 @@ import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,6 +43,9 @@ public class DeviceServiceImpl implements DeviceService {
     private DeviceRentMapper rentMapper;
     @Autowired
     private DeviceRentDocsMapper rentDocsMapper;
+    @Value("${upload.path}")
+    private String fileSavePath;
+
 
     @Override
     public void addDevice(Device device) {
@@ -189,7 +193,7 @@ public class DeviceServiceImpl implements DeviceService {
         if (doc==null) {
             return null;
         }else {
-            File file=new File(("F:/upload"),doc.getNewName());
+            File file=new File(new File(fileSavePath),doc.getNewName());
             if (file.exists()){
                 return new FileInputStream(file);
             }else {
@@ -226,6 +230,26 @@ public class DeviceServiceImpl implements DeviceService {
         zipOutputStream.closeEntry();
         zipOutputStream.flush();
         zipOutputStream.close();
+    }
+
+    @Override
+    public List<DeviceRent> findDeviceRentByQueryParam(Map<String, Object> queryParam) {
+        return rentMapper.findByQueryParam(queryParam);
+    }
+
+    @Override
+    public Long countOfDeviceRent() {
+        return rentMapper.count();
+    }
+
+    @Override
+    @Transactional
+    public void changeRentState(Integer id) {
+        DeviceRent deviceRent=findDeviceRentById(id);
+        deviceRent.setState("已完成");
+        rentMapper.updateState(deviceRent);
+
+        //向财务模块添加尾款记录
     }
 
 

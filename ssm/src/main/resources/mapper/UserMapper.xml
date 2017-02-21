@@ -23,7 +23,7 @@
     <update id="update">
         UPDATE t_user
         <set>
-            username=#{username}
+            username=#{username},
             <if test="password!=null and password!=''">
                 password=#{password}
             </if>

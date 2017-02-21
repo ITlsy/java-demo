@@ -1,6 +1,8 @@
 package com.lsy.controller;
 
+import com.google.common.collect.Maps;
 import com.lsy.dto.AjaxResult;
+import com.lsy.dto.DataTablesResult;
 import com.lsy.dto.DeviceRentDto;
 import com.lsy.exception.NotFoundException;
 import com.lsy.pojo.Device;
@@ -28,6 +30,7 @@ import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.util.List;
+import java.util.Map;
 import java.util.zip.ZipOutputStream;
 
 /**
@@ -179,7 +182,25 @@ public class DeviceRentController {
     }
 
     @GetMapping("/load")
-    public AjaxResult load(){
+    @ResponseBody
+    public DataTablesResult load(HttpServletRequest request){
+        String draw=request.getParameter("draw");
+        String start=request.getParameter("start");
+        String length=request.getParameter("length");
 
+        Map<String,Object> queryParam= Maps.newHashMap();
+        queryParam.put("start",start);
+        queryParam.put("length",length);
+        List<DeviceRent> deviceRentList=deviceService.findDeviceRentByQueryParam(queryParam);
+        Long count=deviceService.countOfDeviceRent();
+        return new DataTablesResult(draw,count,count,deviceRentList);
+    }
+
+    //将合同状态修改为已完成
+    @PostMapping("/state/change")
+    @ResponseBody
+    public AjaxResult changeRentState(Integer id){
+      deviceService.changeRentState(id);
+      return new  AjaxResult(AjaxResult.SUCCESS);
     }
 }

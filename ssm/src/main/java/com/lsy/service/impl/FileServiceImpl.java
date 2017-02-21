@@ -17,8 +17,8 @@ import java.util.UUID;
 public class FileServiceImpl implements FileService {
 private Logger logger= LoggerFactory.getLogger(FileServiceImpl.class);
 
-//@Value("${upload.path}")
-private String uploadPath="F:/upload";
+@Value("${upload.path}")
+private String uploadPath;
 
     @Override
     public String uploadFile(String originalFilename, String contentType,
