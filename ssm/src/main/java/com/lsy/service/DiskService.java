@@ -4,6 +4,8 @@ package com.lsy.service;
 import com.lsy.pojo.Disk;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.List;
 
 /**
@@ -16,4 +18,10 @@ public interface DiskService {
     void saveFolder(Disk disk);
 
     void uploadNewFile(Integer fid, MultipartFile file);
+
+    InputStream downloadFile(Integer id) throws FileNotFoundException;
+
+    Disk findById(Integer id);
+
+    void delById(Integer id);
 }

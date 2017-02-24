@@ -138,6 +138,18 @@
           <artifactId>joda-time</artifactId>
           <version>2.9.4</version>
       </dependency>
+      <!--poi导出Excel-->
+      <dependency>
+          <groupId>org.apache.poi</groupId>
+          <artifactId>poi</artifactId>
+          <version>3.15</version>
+      </dependency>
+      <!--okHttp服务器请求-->
+      <dependency>
+      <groupId>com.squareup.okhttp3</groupId>
+      <artifactId>okhttp</artifactId>
+      <version>3.6.0</version>
+  </dependency>
   </dependencies>
   <build>
     <finalName>ssm</finalName>

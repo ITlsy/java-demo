@@ -11,4 +11,12 @@ public interface DiskMapper {
     List<Disk> findByFid(Integer path);
 
     void saveFolder(Disk disk);
+
+    Disk findById(Integer id);
+
+    void del(Integer id);
+
+    List<Disk> findAll();
+
+    void batchDel(List<Integer> delIdList);
 }

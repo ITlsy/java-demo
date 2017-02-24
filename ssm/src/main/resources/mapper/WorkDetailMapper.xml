@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lsy.mapper.WorkDetailMapper">
+    <insert id="batchSave">
+        INSERT INTO t_device_work_detail(work_name,work_price,out_num,total_price,work_id)
+        VALUES
+        <foreach collection="list" item="obj" separator=",">
+            (#{obj.workName},#{obj.workPrice},#{obj.outNum},#{obj.totalPrice},#{obj.workId})
+        </foreach>
+    </insert>
+</mapper>

@@ -1,11 +1,13 @@
 package com.lsy.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
  * Created by Administrator on 2017/2/16 0016.
  */
 @Data
+@AllArgsConstructor
 public class AjaxResult {
     public static final String SUCCESS="success";
     public static final String ERROR="error";

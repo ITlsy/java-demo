@@ -96,6 +96,7 @@ public class UserServiceImpl implements UserService {
         userMapper.save(user);
         //2.保存用户和角色的关系
         addUserRole(user,roleIds);
+        //保存微信
 
     }
 

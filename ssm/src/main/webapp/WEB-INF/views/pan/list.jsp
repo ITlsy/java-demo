@@ -63,31 +63,35 @@
                             </tr>
                         </c:if>
                         <c:forEach items="${diskList}" var="disk">
-                        <tr>
-                            <td>
-                                <c:choose>
-                                    <c:when test="${disk.type=='file'}">
-                                        <i class="fa fa-file-o"></i>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <i class="fa fa-folder-o"></i>
-                                    </c:otherwise>
-                                </c:choose>
-                            </td>
-                            <td>
-                                <c:choose>
-                                    <c:when test="${disk.type == 'file'}">
-                                        <a href="/pan/download?id=${disk.id}">${disk.sourceName}</a>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <a href="/pan?path=${disk.id}">${disk.sourceName}</a>
-                                    </c:otherwise>
-                                </c:choose>
-                           </td>
-                            <td>${disk.size}</td>
-                            <td>${disk.createUser}</td>
-                            <td>${disk.createTime}</td>
-                        </tr>
+                            <tr>
+                                <td>
+                                    <c:choose>
+                                        <c:when test="${disk.type == 'file'}">
+                                            <i class="fa fa-file-o"></i>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <i class="fa fa-folder-o"></i>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </td>
+                                <td>
+                                    <c:choose>
+                                        <c:when test="${disk.type == 'file'}">
+                                            <a href="/pan/download?id=${disk.id}">${disk.sourceName}</a>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <a href="/pan?path=${disk.id}">${disk.sourceName}</a>
+                                        </c:otherwise>
+                                    </c:choose>
+
+                                </td>
+                                <td>${disk.size}</td>
+                                <td>${disk.createTime}</td>
+                                <td>${disk.createUser}</td>
+                                <td>
+                                    <a href="javascript:;" class="remove" rel="${disk.id}"><i class="fa fa-trash text-danger"></i></a>
+                                </td>
+                            </tr>
                         </c:forEach>
                         </tbody>
                     </table>
@@ -143,6 +147,23 @@ $(function () {
              layer.msg("服务器忙,请稍后");
          });
       });
+   });
+
+   $(".remove").click(function () {
+       var id=$(this).attr("rel");
+       layer.confirm("确定要删除么",function (index) {
+          layer.close(index);
+          $.get("/pan/del/"+id).done(function (resp) {
+            if(resp.status=='success'){
+                layer.msg("删除成功");
+                window.history.go(0);
+            }else {
+                layer.msg(resp.message);
+            }
+          }).error(function () {
+              layer.msg("服务器忙，请稍后再试");
+          });
+       });
    });
 
 });

@@ -229,7 +229,7 @@
          console.log(result);*/
 
         //租赁日期，默认今天
-        $("#rentDate").val(moment().format("YYYY-MM-DD"));
+        $("#rentDate" ).val(moment().format("YYYY-MM-DD"));
         //归还日期
         $("#backDate").datepicker({
             format: "yyyy-mm-dd",
@@ -305,44 +305,44 @@
 
             },
             remove:function (device) {
-               layer.confirm("确定要删除么?",function (index) {
-                   app.$data.deviceArray.splice(app.$data.deviceArray.indexOf(device),1);
-                   layer.close(index);
-               });
+                layer.confirm("确定要删除么?",function (index) {
+                    app.$data.deviceArray.splice(app.$data.deviceArray.indexOf(device),1);
+                    layer.close(index);
+                });
 
             },
             saveRent:function () {
                 var json={
-                 deviceArray:app.$data.deviceArray,
-                 fileArray:fileArray,
-                 companyName:$("#companyName").val(),
-                 tel:$("#tel").val(),
-                 linkMan:$("#linkMan").val(),
-                 cardNum:$("#cardNum").val(),
-                 address:$("#address").val(),
-                 fax:$("#fax").val(),
-                 rentDate:$("#rentDate").val(),
-                 backDate:$("#backDate").val(),
-                 totalDays:$("#totalDays").val()
+                    deviceArray:app.$data.deviceArray,
+                    fileArray:fileArray,
+                    companyName:$("#companyName").val(),
+                    tel:$("#tel").val(),
+                    linkMan:$("#linkMan").val(),
+                    cardNum:$("#cardNum").val(),
+                    address:$("#address").val(),
+                    fax:$("#fax").val(),
+                    rentDate:$("#rentDate").val(),
+                    backDate:$("#backDate").val(),
+                    totalDays:$("#totalDays").val()
 
-                 };
+                };
                 //Json.parse
                 $.ajax({
-                   url:"/device/rent/new",
+                    url:"/device/rent/new",
                     type:"post",
                     data:JSON.stringify(json),
                     contentType:"application/json;charset=UTF-8",
                     success:function (data) {
-                  if(data.status=='success'){
-                      layer.confirm("保存成功",{btn:['继续添加','打印合同']},function () {
-                          window.history.go(0);
-                          
-                      },function () {
-                          window.location.href="/device/rent/"+data.data;
-                      });
-                  }else {
-                      layer.msg(data.message);
-                  }
+                        if(data.status=='success'){
+                            layer.confirm("保存成功",{btn:['继续添加','打印合同']},function () {
+                                window.history.go(0);
+
+                            },function () {
+                                window.location.href="/device/rent/"+data.data;
+                            });
+                        }else {
+                            layer.msg(data.message);
+                        }
                     },
                     error:function () {
                         layer.msg("服务器忙,请稍后再试");
