@@ -6,6 +6,7 @@ import com.lsy.pojo.Role;
 import com.lsy.pojo.User;
 import com.lsy.service.UserService;
 
+import com.lsy.service.WeiXinService;
 import com.lsy.util.db.Page;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -29,6 +31,8 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
     @Autowired
     private RoleMapper roleMapper;
+    @Autowired
+    private WeiXinService weiXinService;
 @Value("${password.salt}")
     private String salt;
 
@@ -97,6 +101,13 @@ public class UserServiceImpl implements UserService {
         //2.保存用户和角色的关系
         addUserRole(user,roleIds);
         //保存微信
+        com.lsy.dto.wx.User wxUser=new com.lsy.dto.wx.User();
+        wxUser.setUserid(user.getId().toString());
+        wxUser.setName(user.getUsername());
+        wxUser.setMobile(user.getMobile());
+        System.out.println(roleIds);
+        wxUser.setDepartment(Arrays.asList(roleIds));
+        weiXinService.saveUser(wxUser);
 
     }
 

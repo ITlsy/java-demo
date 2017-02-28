@@ -6,7 +6,7 @@
     <cache/>
 
     <insert id="save" useGeneratedKeys="true" keyProperty="id" >
-        INSERT INTO t_user (username,password) VALUES (#{username},#{password})
+        INSERT INTO t_user (username,password,mobile) VALUES (#{username},#{password},#{mobile})
     </insert>
     <!--<select id="findById" parameterType="int" resultType="User">
         SELECT * FROM t_user where id=#{id}

@@ -15,6 +15,15 @@ public class User implements Serializable {
     private String username;
     private  String password;
     private List<Role> roleList;
+    private String  mobile;
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
 
     public Integer getId() {
         return id;

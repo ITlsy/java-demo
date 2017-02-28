@@ -24,6 +24,8 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
         <property name="filterChainDefinitions">
             <value>
                 /static/**=anon
+                <!--匿名可访问-->
+                /wx/init=anon
                 /user=roles[role_admin]
                 /setting/**=roles[role_admin]
                 /**=authc
