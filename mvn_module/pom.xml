@@ -13,10 +13,10 @@
        <junit-version>4.12</junit-version>
     </properties>
     <modules>
-        <module>../mvn-entity</module>
-        <module>../mvn-service</module>
-        <module>../mvn-util</module>
-        <module>../mvn-web</module>
+        <module>mvn-entity</module>
+        <module>mvn-service</module>
+        <module>mvn-util</module>
+        <module>mvn-web</module>
     </modules>
 
     <dependencyManagement>

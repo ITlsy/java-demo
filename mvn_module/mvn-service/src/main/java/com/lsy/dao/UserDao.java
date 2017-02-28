@@ -7,6 +7,6 @@ import com.lsy.pojo.User;
  */
 public class UserDao{
     public void save(User user){
-        System.out.println(user.getName()+"ave");
+        System.out.println(user.getName()+"save");
     }
 }

@@ -11,7 +11,7 @@
         <groupId>com.lsy</groupId>
         <artifactId>mvn-parent</artifactId>
         <version>1.0</version>
-        <relativePath>../mvn-parent/pom.xml</relativePath>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
   <properties>
