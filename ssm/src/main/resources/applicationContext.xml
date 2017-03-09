@@ -12,7 +12,6 @@
 <!--spring配置文件-->
 
     <!--自动扫描-->
-    <!--自动扫描-->
     <context:component-scan base-package="com.lsy">
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
     </context:component-scan>
@@ -52,4 +51,36 @@
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="basePackage" value="com.lsy.mapper"/>
     </bean>
+
+    <!--activiti的引擎配置-->
+    <bean id="processEngineConfiguration" class="org.activiti.spring.SpringProcessEngineConfiguration">
+        <property name="processEngineName" value="spring"></property>
+        <property name="dataSource" ref="dataSource"></property>
+        <property name="transactionManager" ref="transactionManager"/>
+        <property name="databaseSchemaUpdate" value="true"/>
+        <property name="jobExecutorActivate" value="false"/>
+
+        <property name="deploymentResources" value="classpath*:/diagrams/leave/*.zip"></property>
+    </bean>
+
+    <!--注入引擎工厂-->
+    <bean id="processEngineFactory" class="org.activiti.spring.ProcessEngineFactoryBean">
+        <property name="processEngineConfiguration" ref="processEngineConfiguration"/>
+    </bean>
+    <!--配置七大service-->
+    <bean id="repositoryService" factory-bean="processEngineFactory"
+          factory-method="getRepositoryService"/>
+    <bean id="runtimeService" factory-bean="processEngineFactory"
+          factory-method="getRuntimeService"/>
+    <bean id="formService" factory-bean="processEngineFactory"
+          factory-method="getFormService" />
+    <bean id="identityService" factory-bean="processEngineFactory"
+          factory-method="getIdentityService" />
+    <bean id="taskService" factory-bean="processEngineFactory"
+          factory-method="getTaskService" />
+    <bean id="historyService" factory-bean="processEngineFactory"
+          factory-method="getHistoryService" />
+    <bean id="managementService" factory-bean="processEngineFactory"
+          factory-method="getManagementService" />
+
 </beans>
