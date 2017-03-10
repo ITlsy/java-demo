@@ -1,5 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt_rt" %>
 
 <!DOCTYPE html>
 <html>
@@ -48,9 +50,9 @@
                         <tr>
                             <td>${process.userName}</td>
                             <td>${process.task.name}</td>
-                            <td>${process.task.createTime}</td>
+                            <td><fmt:formatDate value="${process.task.createTime}" pattern="yyyy-MM-dd hh:mm:ss"/> </td>
                             <td>${process.processDefinitionName}</td>
-                            <td>${process.historicProcessInstance.startTime}</td>
+                            <td><fmt:formatDate value="${process.historicProcessInstance.startTime}" pattern="yyyy-MM-dd hh:mm:ss"/> </td>
                             <td>
                                 <c:choose>
                                     <c:when test="${not empty process.task.assignee}">
