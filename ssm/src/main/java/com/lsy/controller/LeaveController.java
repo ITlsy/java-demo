@@ -1,10 +1,18 @@
 package com.lsy.controller;
 
+import com.lsy.mapper.LeaveMapper;
 import com.lsy.pojo.Leave;
 import com.lsy.pojo.User;
 import com.lsy.service.LeaveWorkFlow;
 import com.lsy.shiro.ShiroUtil;
 import org.activiti.engine.ActivitiException;
+import org.activiti.engine.IdentityService;
+import org.activiti.engine.RuntimeService;
+import org.activiti.engine.TaskService;
+import org.activiti.engine.runtime.ProcessInstance;
+import org.activiti.engine.task.Task;
+import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +22,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,6 +38,14 @@ public class LeaveController {
 
     @Autowired
     private LeaveWorkFlow leaveWorkFlow;
+    @Autowired
+    private TaskService taskService;
+    @Autowired
+    private RuntimeService runtimeService;
+    @Autowired
+    private LeaveMapper leaveMapper;
+    @Autowired
+    private IdentityService identityService;
 
     @GetMapping("/apply")
     public String leaveApply(){
@@ -52,9 +70,58 @@ public class LeaveController {
         return "activiti/leave/leaveApply";
     }
 
+    //办理任务首先展示任务详情
     @RequestMapping("/view/task/{taskId}")
-    public String viewTask(@PathVariable String taskId){
+    public String viewTask(@PathVariable String taskId,Model model){
+        //查询t_leave，封装leave对象
+        //1.查询leave对象需要instaceId，根据taskid获取task对象，然后根据task对象的processInstanceId查询leave
+        Task task=taskService.createTaskQuery().taskId(taskId).singleResult();
+        String processInstanceId=task.getProcessInstanceId();
+        ProcessInstance processInstance=runtimeService.createProcessInstanceQuery()
+                .processInstanceId(processInstanceId).singleResult();
+        String businessKey=processInstance.getBusinessKey();
+        Leave leave=leaveMapper.findLeaveById(Long.parseLong(businessKey));
+        //task对象
+        leave.setTask(task);
+
+        //开发底层mapper接口
+        // leaveMapper.getLeaveByProcessInstanceId(processInstanceId);
+
+        // 根据t_leave表中的userId查询userName(act_id_user)
+        org.activiti.engine.identity.User actUser=identityService.createUserQuery().userId(leave.getUserId()).singleResult();
+        leave.setUserName(actUser.getFirstName());
+        model.addAttribute("leave",leave);
+        //如果task_def_key 为 modifyApply，跳转activiti/leave/modify-apply.jsp
+        if()
+        return "activiti/leave/taskVerify";
 
     }
+
+    //办理任务
+        @RequestMapping("/task/complete/{taskId}")
+        public String taskComplete(@PathVariable("taskId") String taskId, HttpServletRequest request, RedirectAttributes redirectAttributes){
+        Map<String,Object> maps=new HashMap<>();
+             String defKey=request.getParameter("defKey");
+             try {
+                 if(StringUtils.isNotEmpty(defKey)&&("leaveBack".equals(defKey))){
+                    String realityStartTime=request.getParameter("realityStartTime");
+                    String realityEndTime=request.getParameter("realityEndTime");
+                    //真实开始结束时间留给监听器做
+                     maps.put("realityStartTime",realityStartTime);
+                     maps.put("realityEndTime",realityEndTime);
+                 }else {
+                     String verify=request.getParameter("verify");
+                     //verify必须为boolean值，否则抛出异常
+                     Object value= BooleanUtils.toBoolean(verify);
+                     maps.put(defKey,value);
+                 }
+                 //完成任务
+                 taskService.complete(taskId,maps);
+                 redirectAttributes.addFlashAttribute("message","完成任务");
+             }catch (ActivitiException e){
+                    redirectAttributes.addFlashAttribute("message","完成任务失败");
+             }
+             return "redirect:/process/task/list";
+        }
 
 }

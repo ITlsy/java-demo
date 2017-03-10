@@ -14,7 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,8 +85,22 @@ public class ProcessController {
 
         }
         model.addAttribute("processList",processList);
-        System.out.println(processList);
         return "activiti/process/taskList";
+
+    }
+
+    //签收任务
+    @RequestMapping("/claim/task/{taskId}")
+    public String taskClaim(@PathVariable String taskId, RedirectAttributes redirectAttributes){
+        String userId=ShiroUtil.getCurrentUserId().toString();
+        try{
+           taskService.claim(taskId,userId);
+           redirectAttributes.addFlashAttribute("message","签收成功");
+        }catch (ActivitiException e){
+            redirectAttributes.addFlashAttribute("message","签收失败");
+
+        }
+        return "redirect:/process/task/list";
 
     }
 }
