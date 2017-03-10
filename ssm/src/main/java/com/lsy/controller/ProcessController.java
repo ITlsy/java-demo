@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,6 +41,8 @@ public class ProcessController {
     private RuntimeService runtimeService;
     @Autowired
     private RepositoryService repositoryService;
+
+    DateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 
     @GetMapping("/apply")
     public String processApply(){
@@ -102,5 +106,35 @@ public class ProcessController {
         }
         return "redirect:/process/task/list";
 
+    }
+
+    @GetMapping("/myRunning/list")
+    public String myRunningProcess(Model model){
+        com.lsy.pojo.User user=ShiroUtil.getCurrentUser();
+        //1.通过当前登录的userId去查询historyProcessInstance
+        List<HistoricProcessInstance> hisProInstanceList=historyService.createHistoricProcessInstanceQuery()
+                .startedBy(user.getId().toString()).list();
+        List<Process> processList=new ArrayList<>();
+        for (HistoricProcessInstance hisInstance:hisProInstanceList){
+            //2.根据endtime==null 筛选正在运行的流程
+            if (hisInstance.getEndTime()!=null){
+                continue;
+            }
+            Process process=new Process();
+            process.setProcessInstanceId(hisInstance.getId());
+            ProcessDefinition proDef=repositoryService.createProcessDefinitionQuery()
+                    .processDefinitionId(hisInstance.getProcessDefinitionId()).singleResult();
+
+            //设置流程名称
+            process.setProcessDefinitionName(proDef.getName());
+            process.setApplyTime(format.format(hisInstance.getStartTime()));
+            process.setUserName(user.getUsername());
+            //查询任务信息
+            Task task=taskService.createTaskQuery().executionId(hisInstance.getId()).singleResult();
+            process.setTask(task);
+            processList.add(process);
+        }
+        model.addAttribute("processList",processList);
+        return "activiti/process/myRunningProcess";
     }
 }
