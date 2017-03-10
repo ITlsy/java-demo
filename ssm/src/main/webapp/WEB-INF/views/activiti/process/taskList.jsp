@@ -54,10 +54,10 @@
                             <td>
                                 <c:choose>
                                     <c:when test="${not empty process.task.assignee}">
-                                        <a href="">办理</a>
+                                        <a href="/leave/view/task/${process.task.id}">办理</a>
                                     </c:when>
                                     <c:otherwise>
-                                        <a href="">签收</a>
+                                        <a href="/process/claim/task/${process.task.id}">签收</a>
                                     </c:otherwise>
                                 </c:choose>
                             </td>
