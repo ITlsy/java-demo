@@ -42,7 +42,7 @@
                         <tbody>
                         <c:forEach items="${processList}" var="process">
                         <tr>
-                            <td><a href="">${process.processInstanceId}</a></td>
+                            <td><a href="/process/viewDetail/${process.processInstanceId}">${process.processInstanceId}</a></td>
                             <td>${process.processDefinitionName}</td>
                             <td>${process.applyTime}</td>
                             <td>${process.userName}</td>

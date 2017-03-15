@@ -1,10 +1,13 @@
 package com.lsy.dto;
 
 import lombok.Data;
+import org.activiti.engine.history.HistoricActivityInstance;
 import org.activiti.engine.history.HistoricProcessInstance;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
+
+import java.util.List;
 
 /**
  * Created by Administrator on 2017/3/9 0009.
@@ -28,5 +31,7 @@ public class Process {
     private HistoricProcessInstance historicProcessInstance;
     //流程定义
     private ProcessDefinition processDefinition;
+    //流程活动节点
+    private List<HistoricActivityInstance> actList;;
 
 }

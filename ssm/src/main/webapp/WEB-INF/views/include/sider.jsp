@@ -39,8 +39,8 @@
                     <li class="${param.menu == 'process_list' ? 'active' : ''}">
                         <a href="/process/task/list"><i class="fa fa-circle-o"></i> 我的待办</a>
                     </li>
-                    <li class="${param.menu == 'process_history' ? 'active' : ''}">
-                        <a href="/process/task/list"><i class="fa fa-circle-o"></i>历史工作流程</a>
+                    <li class="${param.menu == 'process_historyList' ? 'active' : ''}">
+                        <a href="/process/history/list"><i class="fa fa-circle-o"></i>历史工作流程</a>
                     </li>
                 </ul>
             </li>
