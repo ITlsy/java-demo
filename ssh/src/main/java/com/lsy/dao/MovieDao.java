@@ -11,10 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-/**
- * Created by Administrator on 2017/3/16 0016.
- */
-@Repository
+/*@Repository
 public class MovieDao {
     @Autowired
     private SessionFactory sessionFactory;
@@ -46,4 +43,8 @@ public class MovieDao {
         }
         return criteria.list();
     }
+}*/
+@Repository
+public class MovieDao extends BaseDao<Movie>{
+
 }

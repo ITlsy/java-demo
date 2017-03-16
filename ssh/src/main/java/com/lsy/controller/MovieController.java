@@ -20,13 +20,13 @@ public class MovieController {
 
 
     @GetMapping
-    public String list(Movie movie,Model model){
+    public String list( Movie movie,Model model){
         model.addAttribute("movieList",movieService.findAll());
         return "movie/list";
 
     }
 
-    @GetMapping("/movie/{id:\\d+}")
+    @GetMapping("/{id:\\d+}")
     public String show(@PathVariable Integer id,Model model){
         Movie movie=movieService.findById(id);
         model.addAttribute("movie",movie);
