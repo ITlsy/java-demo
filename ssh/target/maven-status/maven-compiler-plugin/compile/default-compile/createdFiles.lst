@@ -1,0 +1,6 @@
+com\lsy\pojo\Movie.class
+com\lsy\util\SessionFactoryUtil.class
+com\lsy\controller\MovieController.class
+com\lsy\service\MovieService.class
+com\lsy\dao\MovieDao.class
+com\lsy\pojo\Category.class
