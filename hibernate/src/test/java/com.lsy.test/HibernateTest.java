@@ -28,16 +28,16 @@ public class HibernateTest {
         Transaction transaction=session.getTransaction();
         transaction.begin();
 
-        /*User user=new User();
+        User user=new User();
         user.setUserName("hibernate");
         user.setPassword("4.x");
         session.save(user);
 
-        System.out.println(user.getId());*/
+        System.out.println(user.getId());
 
-        Task task=new Task();
+       /* Task task=new Task();
         task.setTitle("hibernate");
-        session.save(task);
+        session.save(task);*/
 
         //4.结束
         transaction.commit();
@@ -73,8 +73,8 @@ public class HibernateTest {
     public void update(){
         Session session=SessionFactoryUtil.getSession();
         session.getTransaction().begin();
-        User user= (User) session.get(User.class,43);
-        user.setUserName("hibernate ORM");
+        User user= (User) session.get(User.class,1);
+        user.setUserName("hibernate ORM、");
         session.getTransaction().commit();
     }
 

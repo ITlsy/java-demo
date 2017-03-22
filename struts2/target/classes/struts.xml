@@ -1,0 +1,79 @@
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+    <!--默认路径后缀名为加.action或什么都不加，而如下是修改路径后缀-->
+    <!--<constant name="struts.action.extension" value=","/>-->
+
+    <!--
+               name : 返回结果的名称 默认值为success
+               type : 跳转类型，
+                       默认为dispatch Action -> View 请求转发
+                       chain Action -> Action 请求转发
+                       redirect Action-> View 重定向
+                       redirectAction  Action -> Action 重定向
+           -->
+
+<!--package name="helloPackage" namespace="/" extends="struts-default">
+    <interceptors>
+        <interceptor-stack name="myStack">
+            <interceptor-ref name="defaultStack"/>
+            <interceptor-ref name="timer"/>
+        </interceptor-stack>
+    </interceptors>
+    <default-interceptor-ref name="myStack"/>
+    
+    <action name="hello" class="com.lsy.action.HelloAction">
+        <result name="success">/WEB-INF/views/hello.jsp</result>
+    </action>
+    <action name="list" class="com.lsy.action.HelloAction" method="list">
+        &lt;!&ndash;<result name="success">WEB-INF/views/list.jsp</result>&ndash;&gt;
+        &lt;!&ndash;通过输入url路径list，重定向到hello路径中&ndash;&gt;
+        <result name="success" type="redirectAction">
+            &lt;!&ndash;<param name="actionName">hello</param>&ndash;&gt;
+            <param name="actionName">new</param>
+            <param name="namespace">/user</param>
+            <param name="code">${code}</param>
+        </result>
+    </action>
+</package>
+
+    <package name="userPackage" namespace="/user" extends="struts-default">
+        <action name="new" class="com.lsy.action.UserAction">
+            &lt;!&ndash;name="success" type="dispatcher"是默认的，可以不写&ndash;&gt;
+            <result name="success" type="dispatcher">/WEB-INF/views/user/new.jsp</result>
+        </action>
+        <action name="save" class="com.lsy.action.UserAction" method="save">
+            <result name="success" type="redirectAction">
+                <param name="actionName">new</param>
+            </result>
+        </action>
+    </package>-->
+
+
+<include file="struts-account.xml"/>
+    <include file="struts-task.xml"/>
+    <include file="struts-task"/>
+
+    <package name="basePackage" extends="struts-default" abstract="true">
+        <interceptors>
+            <interceptor name="login" class="com.lsy.action.interceptor.LoginInterceptor">
+                <param name="namespace">/</param>
+                <param name="actionNames">index,login</param>
+            </interceptor>
+
+            <interceptor-stack name="myStack">
+                <interceptor-ref name="defaultStack"/>
+                <interceptor-ref name="login"/>
+            </interceptor-stack>
+        </interceptors>
+        <default-interceptor-ref name="myStack"/>
+
+        <global-results>
+            <result name="login" type="redirectAction">
+                <param name="actionName">index</param>
+                <param name="namespace">/</param>
+            </result>
+        </global-results>
+    </package>
+</struts>

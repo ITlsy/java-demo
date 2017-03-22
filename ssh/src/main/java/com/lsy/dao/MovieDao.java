@@ -45,6 +45,6 @@ public class MovieDao {
     }
 }*/
 @Repository
-public class MovieDao extends BaseDao<Movie>{
+public class MovieDao extends BaseDao<Movie,Integer>{
 
 }

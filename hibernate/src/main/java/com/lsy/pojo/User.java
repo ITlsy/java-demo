@@ -1,12 +1,19 @@
 package com.lsy.pojo;
 
-/**
- * Created by Administrator on 2017/3/13 0013.
- */
-public class User {
+
+import javax.persistence.*;
+import java.io.Serializable;
+
+@Entity
+@Table(name = "t_user")
+public class User implements Serializable{
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column(name = "username")
     private String userName;
     private String password;
+
 
     public Integer getId() {
         return id;

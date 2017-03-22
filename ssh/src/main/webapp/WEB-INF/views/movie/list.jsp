@@ -9,6 +9,10 @@
 </head>
 <body>
 <div class="container">
+    <form action="" class="form-inline">
+        <input type="text" name="q_eq_title" class="form-control" placeholder="影片名称">
+        <button class="btn btn-default">搜索</button>
+    </form>
     <table class="table">
         <thead>
         <tr>
@@ -19,8 +23,11 @@
         </tr>
         </thead>
         <tbody>
-        <c:forEach items="${movieList}" var="movie">
-            <tr>
+        <%--<c:forEach items="${movieList}" var="movie">--%>
+        <%--<c:forEach items="${page.items}" var="movie">--%>
+        <c:forEach items="${items}" var="movie">
+
+        <tr>
                 <td><a href="/movie/${movie.id}">${movie.title}</a></td>
                 <td>${movie.daoyan}</td>
                 <td>${movie.rate}</td>
@@ -29,6 +36,23 @@
         </c:forEach>
         </tbody>
     </table>
+    <ul class="pagination pull-right" id="page"></ul>
+</div>
+<script src="/static/js/jquery-1.11.3.min.js"></script>
+<script src="/static/js/jquery.twbsPagination.min.js"></script>
+<script>
+    $(function () {
+        $("#page").twbsPagination({
+            totalPages:${page.totalPages},
+            visiblePages:5,
+            first:'首页',
+            prev:'上一页',
+            next:'下一页',
+            last:'末页',
+            href:'?p={{number}}'
+        });
+    });
+</script>
 </div>
 </body>
 </html>

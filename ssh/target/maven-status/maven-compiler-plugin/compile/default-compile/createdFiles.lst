@@ -1,7 +1,8 @@
 com\lsy\pojo\Movie.class
-com\lsy\util\SessionFactoryUtil.class
+com\lsy\util\Page.class
 com\lsy\controller\MovieController.class
 com\lsy\service\MovieService.class
 com\lsy\dao\MovieDao.class
+com\lsy\util\QueryParam.class
 com\lsy\dao\BaseDao.class
 com\lsy\pojo\Category.class

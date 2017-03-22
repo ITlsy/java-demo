@@ -1,7 +1,8 @@
 F:\workspace\git\ssh\src\main\java\com\lsy\dao\BaseDao.java
 F:\workspace\git\ssh\src\main\java\com\lsy\service\MovieService.java
+F:\workspace\git\ssh\src\main\java\com\lsy\util\Page.java
 F:\workspace\git\ssh\src\main\java\com\lsy\controller\MovieController.java
 F:\workspace\git\ssh\src\main\java\com\lsy\dao\MovieDao.java
+F:\workspace\git\ssh\src\main\java\com\lsy\util\QueryParam.java
 F:\workspace\git\ssh\src\main\java\com\lsy\pojo\Movie.java
 F:\workspace\git\ssh\src\main\java\com\lsy\pojo\Category.java
-F:\workspace\git\ssh\src\main\java\com\lsy\util\SessionFactoryUtil.java

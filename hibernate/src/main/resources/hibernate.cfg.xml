@@ -20,11 +20,14 @@
         <property name="c3p0.idle_test_period">3000</property>
         <property name="c3p0.acquire_increment">2</property>
         <property name="c3p0.validate">false</property>
-       <!--other-->
+        <!--other-->
         <property name="show_sql">true</property>
         <property name="current_session_context_class">thread</property>
 
-        <!--映射文件-->
+        <!--pojo-->
+        <mapping class="com.lsy.pojo.User"/>
+
+        <!--&lt;!&ndash;映射文件&ndash;&gt;
         <mapping resource="mapper/User.hbm.xml"></mapping>
         <mapping resource="mapper/Employee.hbm.xml"/>
         <mapping resource="mapper/Dept.hbm.xml"/>
@@ -34,6 +37,7 @@
         <mapping resource="mapper/TopicContent.hbm.xml"/>
         <mapping resource="mapper/Student.hbm.xml"/>
         <mapping resource="mapper/Teacher.hbm.xml"/>
-        <mapping resource="mapper/Task.hbm.xml"/>
+        <mapping resource="mapper/Task.hbm.xml"/>-->
+
     </session-factory>
 </hibernate-configuration>
