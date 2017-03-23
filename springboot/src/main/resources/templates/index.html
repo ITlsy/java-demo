@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1 th:text="${name}"></h1>
+<h2 th:text="${message}"></h2>
+<!--在if条件中，条件成立，则运行hello，Jack，反之不显示-->
+<h3 th:if="${name!='rose'}">hello,jack</h3>
+<!--类似if取反-->
+<h1 th:unless="${name=='rose'}">hello,Rose</h1>
+<hr>
+<ul th:switch="${name}">
+    <li th:case="jack">jack</li>
+    <li th:case="rose">rose</li>
+    <li th:case="*">other</li>
+</ul>
+<hr>
+<ul>
+    <li th:each="name:${nameList}" th:text="${name}"></li>
+    <hr>
+    <li th:each="n,iterStart:${nameList}" th:text="${iterStart.count}"></li>
+</ul>
+<input type="text" th:value="${name}" th:attr="rel=${name},data-name=${name}">
+<hr>
+<a th:href="@{/book(name=${name})}">删除</a>
+<a th:href="@{/book/{name}/del/{name2}(name=${name},name2=${name})}">删除2</a>
+<script th:inline="javascript">
+    var name=[[${name}]];
+    [# th:if="${name=='rose'}"]
+    var id=112;
+    [/]
+</script>
+<hr>
+
+<!--<div th:insert="~{footer::ft}"></div>-->
+<!--<div th:replace="~{footer::ft}"></div>-->
+<!--<div th:include="~{footer::ft}"></div>-->
+<hr>
+<!--<div th:insert="footer::ft"></div>-->
+<hr>
+<div th:insert="~{footer::#ft}"></div>
+<div id="header" th:replace="footer::header"></div>
+<hr>
+<div th:replace="footer::ft('lsy',2017)"></div>
+</body>
+</html>

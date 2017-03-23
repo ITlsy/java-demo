@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layout}">
+      <!--模板页是那个，layout-->
+<head>
+    <title>CRM-首页</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <script>
+        console.log("hello");
+    </script>
+</head>
+<body>
+<div layout:fragment="content">
+   <ul>
+       <li th:each="user:${userList}" th:text="${user.username}"></li>
+   </ul>
+</div>
+<div layout:fragment="content2">
+    <h1>main page2</h1>
+</div>
+<script layout:fragment="js">
+    console.log("aa");
+</script>
+</body>
+</html>
